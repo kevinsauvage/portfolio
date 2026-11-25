@@ -21,7 +21,7 @@ export const faqs: Faq[] = [
     id: 'stack',
     question: "What's your core stack?",
     answer:
-      'React, Next.js, Svelte, and TypeScript, with Tailwind CSS, Storybook, and testing built on Jest, Cypress, and axe. My specialties are web accessibility, design systems, and Core Web Vitals performance.',
+      'React, Next.js, Svelte, and TypeScript, with Tailwind CSS, Storybook, REST and GraphQL APIs, and headless Shopify. Testing with Jest, Cypress, Playwright, and axe; GitHub Actions for CI; Sentry and Datadog for monitoring. My specialties are web accessibility, design systems, and Core Web Vitals performance.',
   },
   {
     id: 'closed-source',

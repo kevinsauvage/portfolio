@@ -3,13 +3,13 @@ import { projects } from '@/config/content/projects';
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, PERSON_NAME, SITE_URL } from '@/config/site';
 
 // Bump this when site content changes so crawlers see a meaningful `lastModified`.
-export const SITE_LAST_MODIFIED = '2026-10-14' as const;
-export const FRONTEND_DEVELOPER = 'Frontend Developer' as const;
+export const SITE_LAST_MODIFIED = '2026-11-25' as const;
+export const FRONTEND_DEVELOPER = 'Frontend Engineer' as const;
 export const SCHEMA_CONTEXT = 'https://schema.org' as const;
 
 /** Canonical metadata copy — single source of truth for head + JSON-LD. */
 export const SEARCH_TITLE =
-  `${PERSON_NAME} - Frontend Developer | Web Accessibility & Performance` as const;
+  `${PERSON_NAME} - Frontend Engineer | React, Next.js & Web Accessibility` as const;
 export const SITE_DESCRIPTION =
   'Frontend engineer in Barcelona. Accessible, fast web products used by millions in 15+ countries. React, Next.js, Svelte, TypeScript.' as const;
 export const SITE_KEYWORDS =
@@ -45,6 +45,7 @@ export const personSchema = {
     'React',
     'Next.js',
     'Svelte',
+    'GraphQL',
     'Web Accessibility',
     'WCAG 2.2',
     'Frontend Development',

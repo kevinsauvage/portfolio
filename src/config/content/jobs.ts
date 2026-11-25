@@ -17,6 +17,7 @@ export const jobs: Job[] = [
     period: 'Feb 2026 – Present',
     highlights: [
       'Started as the accessibility specialist and only developer on ilévia, a French public transit platform.',
+      'Upgraded ilévia to the latest React and Next.js releases and brought every dependency up to date.',
       'Took RGAA compliance from 30% to 84% by reworking core UI components: semantic HTML, ARIA, keyboard navigation and screen reader support.',
       'Added Jest-axe and Cypress-axe to CI so accessibility problems get caught before release.',
       'Made ESLint (jsx-a11y and custom rules) a required check on pull requests.',
@@ -27,6 +28,7 @@ export const jobs: Job[] = [
       'Next.js',
       'React',
       'TypeScript',
+      'REST APIs',
       'Tailwind',
       'Jest-axe',
       'Cypress-axe',

@@ -9,11 +9,11 @@ type Language = {
 export const sections = {
   hero: {
     title: {
-      firstLine: 'Frontend Developer ·',
+      firstLine: 'Frontend Engineer ·',
       secondLine: 'Web Accessibility & Performance',
     },
     description:
-      'I work on accessibility and frontend at Keolis, remotely from Barcelona. Before that I spent almost four years at Decathlon, building storefronts with Svelte.',
+      'I build React and Next.js apps at Keolis, remotely from Barcelona, with a focus on accessibility. Before that I spent almost four years at Decathlon, building storefronts with Svelte.',
     availability: 'Currently at Keolis Group',
     primaryCta: 'See my experience',
     stats: [
