@@ -5,7 +5,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '@/components/ui/Button/Button';
 import { FOCUS_RING } from '@/components/ui/focusRing';
 import { BodySmall, H4 } from '@/components/ui/Typography';
-import { type CookieCategoryName, cookies as copy } from '@/config/content/cookies';
+import {
+  type CookieCategory,
+  type CookieCategoryName,
+  cookies as copy,
+} from '@/config/content/cookies';
 import {
   consentFromFormData,
   type ConsentSettings,
@@ -17,7 +21,16 @@ import {
 } from '@/lib/consent';
 
 import clsx from 'clsx';
-import { X } from 'lucide-react';
+import {
+  ChartColumn,
+  Cookie,
+  type LucideIcon,
+  Megaphone,
+  Palette,
+  ShieldCheck,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
 
 /**
  * Pre-ticked boxes are not valid consent, so an optional category starts
@@ -30,6 +43,110 @@ const isCategoryChecked = (
 ): boolean => {
   // eslint-disable-next-line security/detect-object-injection -- keyed by the static category list
   return Boolean(required) || stored?.[name] === true;
+};
+
+const CATEGORY_ICONS: Record<CookieCategoryName, LucideIcon> = {
+  functionality_storage: ShieldCheck,
+  analytics_storage: ChartColumn,
+  personalization_storage: Palette,
+  ad_storage: Megaphone,
+};
+
+const IconTile = ({
+  icon: Icon,
+  size = 18,
+  className,
+}: {
+  icon: LucideIcon;
+  size?: number;
+  className?: string;
+}) => (
+  <span
+    aria-hidden='true'
+    className={clsx(
+      'hidden shrink-0 items-center justify-center rounded-xl border border-primary-500/25 bg-primary-500/10 text-primary-300 sm:flex',
+      className
+    )}
+  >
+    <Icon size={size} />
+  </span>
+);
+
+type CategoryOptionProperties = {
+  category: CookieCategory;
+  stored: ConsentSettings | null;
+};
+
+const CategoryOption = ({ category, stored }: CategoryOptionProperties) => {
+  const { name, title, description, required } = category;
+  // eslint-disable-next-line security/detect-object-injection -- keyed by the static category list
+  const CategoryIcon = CATEGORY_ICONS[name];
+
+  return (
+    <div
+      className={clsx(
+        'relative flex items-start gap-3 rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 transition-colors has-[:checked]:border-primary-500/40 has-[:checked]:bg-primary-500/[0.04]',
+        required
+          ? 'cursor-not-allowed'
+          : 'cursor-pointer hover:border-zinc-700 hover:bg-zinc-900/70'
+      )}
+    >
+      <span
+        aria-hidden='true'
+        className='mt-0.5 hidden size-8 shrink-0 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-950/60 text-zinc-400 sm:flex'
+      >
+        <CategoryIcon size={15} />
+      </span>
+
+      <div className='min-w-0 flex-1'>
+        <div className='flex items-start justify-between gap-3'>
+          {/* The label is the control's accessible name, and its pseudo-element
+              stretches the hit area over the whole card. */}
+          <label
+            htmlFor={`cookie-${name}`}
+            className={clsx(
+              'block text-sm font-medium text-zinc-100 after:absolute after:inset-0 after:content-[""]',
+              required ? 'cursor-not-allowed' : 'cursor-pointer'
+            )}
+          >
+            {title}
+            {required ? (
+              <span className='ml-2 text-xs font-normal text-zinc-400'>
+                {copy.preferences.required}
+              </span>
+            ) : null}
+          </label>
+
+          {/* The real checkbox stays in the accessibility tree and keeps the
+              native focus ring; the spans are only its switch skin (siblings,
+              so `peer-*` can react to it). */}
+          <span className='relative mt-0.5 inline-flex h-5 w-9 shrink-0 items-center'>
+            <input
+              id={`cookie-${name}`}
+              type='checkbox'
+              name={name}
+              defaultChecked={isCategoryChecked(stored, name, required)}
+              disabled={required}
+              aria-describedby={`cookie-${name}-description`}
+              className='peer absolute inset-0 z-10 size-full cursor-pointer appearance-none disabled:cursor-not-allowed'
+            />
+            <span
+              aria-hidden='true'
+              className='pointer-events-none absolute inset-0 rounded-full border border-zinc-700 bg-zinc-800 transition-colors peer-checked:border-primary-500 peer-checked:bg-primary-500 peer-disabled:opacity-60'
+            />
+            <span
+              aria-hidden='true'
+              className='pointer-events-none relative ml-0.5 size-3.5 rounded-full bg-zinc-400 transition-transform peer-checked:translate-x-4 peer-checked:bg-zinc-950'
+            />
+          </span>
+        </div>
+
+        <p id={`cookie-${name}-description`} className='mt-1 text-sm text-zinc-400'>
+          {description}
+        </p>
+      </div>
+    </div>
+  );
 };
 
 type Properties = {
@@ -102,16 +219,29 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
     <section
       ref={panelRef}
       tabIndex={-1}
-      className='fixed inset-x-0 bottom-0 z-50 outline-none border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-sm'
+      className={clsx(
+        // Phone: a sheet welded to the bottom edge. Desktop: a floating card.
+        'card-enter fixed inset-x-0 bottom-0 z-50 pb-[env(safe-area-inset-bottom)] outline-none',
+        'border-t border-zinc-800/80 bg-zinc-950/90 backdrop-blur-xl',
+        'rounded-t-2xl',
+        'md:inset-x-4 md:bottom-6 md:mx-auto md:max-w-5xl md:rounded-2xl md:border',
+        'md:shadow-2xl md:shadow-black/60 lg:inset-x-6'
+      )}
       aria-labelledby={showPreferences ? 'cookie-preferences-title' : 'cookie-banner-title'}
     >
-      <div className='container m-auto px-6 py-5'>
+      <span
+        aria-hidden='true'
+        className='pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary-400/60 to-transparent md:hidden'
+      />
+
+      <div className='px-6 py-5 md:px-8 md:py-6'>
         {showPreferences ? (
           <form onSubmit={handleSave}>
-            <div className='flex items-start justify-between gap-4'>
-              <div>
+            <div className='flex items-start gap-4'>
+              <IconTile icon={SlidersHorizontal} className='size-10' />
+              <div className='min-w-0 flex-1'>
                 <H4 id='cookie-preferences-title'>{copy.preferences.title}</H4>
-                <BodySmall className='max-w-2xl mt-1 text-zinc-400'>
+                <BodySmall className='max-w-2xl mt-1.5 text-zinc-400'>
                   {copy.preferences.description}
                 </BodySmall>
               </div>
@@ -120,7 +250,7 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
                 onClick={closePreferences}
                 aria-label='Close cookie preferences'
                 className={clsx(
-                  'p-2 -m-2 rounded-md text-zinc-400 transition-colors hover:text-zinc-100',
+                  '-m-2 shrink-0 rounded-md p-2 text-zinc-400 transition-colors hover:bg-zinc-800/60 hover:text-zinc-100',
                   FOCUS_RING
                 )}
               >
@@ -128,70 +258,47 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
               </button>
             </div>
 
-            <div className='mt-4 grid gap-3 sm:grid-cols-2'>
-              {copy.preferences.categories.map(({ name, title, description, required }) => (
-                <div
-                  key={name}
-                  className={clsx(
-                    'relative flex gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3 transition-colors',
-                    required ? 'cursor-not-allowed' : 'cursor-pointer hover:border-zinc-700'
-                  )}
-                >
-                  <input
-                    id={`cookie-${name}`}
-                    type='checkbox'
-                    name={name}
-                    defaultChecked={isCategoryChecked(stored, name, required)}
-                    disabled={required}
-                    aria-describedby={`cookie-${name}-description`}
-                    className='mt-1 size-4 shrink-0 accent-primary-500'
-                  />
-                  <div className='flex-1'>
-                    {/* The title is the control's accessible name, so it has to
-                        be the <label> itself; the explanation is a description. */}
-                    <label
-                      htmlFor={`cookie-${name}`}
-                      className={clsx(
-                        // The pseudo-element stretches the label over the whole card.
-                        'block text-sm font-medium text-zinc-100 after:absolute after:inset-0 after:content-[""]',
-                        required ? 'cursor-not-allowed' : 'cursor-pointer'
-                      )}
-                    >
-                      {title}
-                      {required ? (
-                        <span className='ml-2 text-xs text-zinc-400'>
-                          {copy.preferences.required}
-                        </span>
-                      ) : null}
-                    </label>
-                    <BodySmall id={`cookie-${name}-description`} className='text-sm text-zinc-400'>
-                      {description}
-                    </BodySmall>
-                  </div>
-                </div>
+            <div className='mt-5 grid gap-2.5 sm:grid-cols-2'>
+              {copy.preferences.categories.map(category => (
+                <CategoryOption key={category.name} category={category} stored={stored} />
               ))}
             </div>
 
-            <div className='mt-4 flex justify-end'>
+            <div className='mt-5 flex justify-end border-t border-zinc-800/60 pt-4'>
               <Button type='submit' label={copy.preferences.save} size='sm' />
             </div>
           </form>
         ) : (
-          <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
-            <div>
-              <H4 id='cookie-banner-title'>{copy.banner.title}</H4>
-              <BodySmall className='max-w-2xl mt-1 text-zinc-400'>
-                {copy.banner.description}
-              </BodySmall>
+          <div className='flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between'>
+            <div className='flex min-w-0 items-start gap-4'>
+              <IconTile icon={Cookie} className='size-10' />
+              <div>
+                <H4 id='cookie-banner-title'>{copy.banner.title}</H4>
+                <BodySmall className='max-w-2xl mt-1.5 text-zinc-400'>
+                  {copy.banner.description}
+                </BodySmall>
+              </div>
             </div>
 
-            <div className='flex flex-wrap items-center gap-2'>
+            <div className='flex flex-wrap items-center gap-2 lg:shrink-0 lg:justify-end'>
+              <button
+                type='button'
+                onClick={() => setShowPreferences(true)}
+                className={clsx(
+                  'order-3 inline-flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800/60 hover:text-zinc-50 sm:order-none sm:w-auto sm:justify-start',
+                  FOCUS_RING
+                )}
+              >
+                <SlidersHorizontal size={15} aria-hidden='true' />
+                {copy.banner.customize}
+              </button>
               <Button
                 type='button'
                 variant='secondary'
                 size='sm'
                 label={copy.banner.rejectAll}
                 onClick={rejectAll}
+                className='order-1 flex-1 sm:order-none sm:flex-none'
               />
               <Button
                 type='button'
@@ -199,14 +306,8 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
                 size='sm'
                 label={copy.banner.acceptAll}
                 onClick={acceptAll}
+                className='order-2 flex-1 sm:order-none sm:flex-none'
               />
-              <button
-                type='button'
-                onClick={() => setShowPreferences(true)}
-                className='px-2 py-2 text-sm text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-100 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-300 rounded-md'
-              >
-                {copy.banner.customize}
-              </button>
             </div>
           </div>
         )}
