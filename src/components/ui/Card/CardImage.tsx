@@ -6,8 +6,6 @@ const ASPECT_CLASSES = {
   square: 'aspect-square',
   video: 'aspect-video',
   wide: 'aspect-[16/10]',
-  // Phone capture (390x844), framed at the device ratio.
-  portrait: 'aspect-[9/16]',
   auto: '',
 } as const;
 
@@ -17,8 +15,6 @@ type CardImageProps = {
   className?: string;
   aspectRatio?: keyof typeof ASPECT_CLASSES;
   objectFit?: 'cover' | 'contain' | 'fill';
-  /** Which edge to keep when `cover` crops the image. */
-  objectPosition?: 'center' | 'top';
   priority?: boolean;
   sizes?: string;
   width?: number;
@@ -31,7 +27,6 @@ export const CardImage = ({
   className,
   aspectRatio = 'video',
   objectFit = 'cover',
-  objectPosition = 'center',
   priority = false,
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw',
   width = 800,
@@ -55,8 +50,7 @@ export const CardImage = ({
           'w-full h-full',
           objectFit === 'cover' && 'object-cover',
           objectFit === 'contain' && 'object-contain',
-          objectFit === 'fill' && 'object-fill',
-          objectPosition === 'top' && 'object-top'
+          objectFit === 'fill' && 'object-fill'
         )}
         loading={priority ? 'eager' : 'lazy'}
         {...(priority && { fetchPriority: 'high' as const })}

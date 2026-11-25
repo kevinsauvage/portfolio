@@ -99,8 +99,7 @@ SCREENSHOT_BASE_URL=https://develop.oruva.store/en npm run screenshots
 
 It crawls the demo for the home, collections index, first collection and first product page, clears
 the cookie banner, and writes optimised JPEGs to `public/images/projects/<slug>/`. Flags:
-`--base <url>`, `--slug <slug>`, `--out <dir>`, `--full` (full-page), `--mobile` (390×844 phone
-viewport, home page only, written as `home-mobile.jpg` — the portrait shot the home card shows). See
+`--base <url>`, `--slug <slug>`, `--out <dir>`, `--full` (full-page). See
 `scripts/capture-project-screenshots.mjs`.
 
 ## Configuration

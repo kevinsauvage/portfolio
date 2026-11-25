@@ -48,11 +48,6 @@ export type Project = {
       alt: string;
       src: string;
     };
-    /** Portrait phone capture used by the home card; falls back to `thumbnail`. */
-    mobile?: {
-      alt: string;
-      src: string;
-    };
   };
   technologies: { name: string }[];
   title: string;
@@ -201,10 +196,6 @@ const myEcommerceProject: Project = {
     thumbnail: {
       alt: 'ORUVA homepage: hero slogan beside a model wearing gold jewelry',
       src: '/images/projects/oruva/home.jpg',
-    },
-    mobile: {
-      alt: 'ORUVA phone homepage: the jewelry hero and its "Shop all jewelry" call to action',
-      src: '/images/projects/oruva/home-mobile.jpg',
     },
   },
   technologies: [
@@ -359,10 +350,6 @@ const complyLoopProject: Project = {
     thumbnail: {
       alt: 'ComplyLoop landing page: hero slogan above the six steps of the loop',
       src: '/images/projects/complyloop/home.jpg',
-    },
-    mobile: {
-      alt: 'ComplyLoop phone homepage: "From RGAA requirement to verified code and audit evidence"',
-      src: '/images/projects/complyloop/home-mobile.jpg',
     },
   },
   technologies: [

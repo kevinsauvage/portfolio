@@ -21,7 +21,7 @@ describe('Card', () => {
     render(<Card data-testid='card'>Body</Card>);
 
     // The card clips its overflow, so its content must be allowed to wrap anywhere.
-    expect(screen.getByTestId('card').lastElementChild).toHaveClass('[overflow-wrap:anywhere]');
+    expect(screen.getByTestId('card').lastElementChild).toHaveClass('wrap-anywhere');
   });
 
   it('omits the entrance animation without an index', () => {

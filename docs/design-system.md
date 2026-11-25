@@ -107,11 +107,10 @@ Type components (`src/components/ui/Typography`):
   trade-off (swapping it for `animate-mesh-once` restores strict compliance).
 - **Hover parity:** card lift (`--hover-transform`) and glow/zoom are mirrored on `:focus-within` so
   keyboard users get the same affordance (see `globals.css` + `Card`/`CardImage`).
-- **Project card:** `ProjectCard` is a split card on `lg` — a portrait phone capture (from
-  `npm run screenshots -- --mobile`) beside the pitch, highlights, stack and actions. The phone
-  frame is `aspect-[9/16]` with `object-top`, so the header and hero stay visible instead of the
-  screenshot being cropped mid-word. Content is always visible: nothing depends on hover, and the
-  card is fully in the DOM for crawlers and assistive tech.
+- **Project card:** `ProjectCard` stacks badge/role, title, a full-width web capture (`2.4:1` from
+  `md`, the desktop screenshot from `npm run screenshots`), the pitch, the stack and the action
+  links at the bottom. Everything is visible at rest — no hover-only content — and the card keeps
+  the entrance/glow behaviour of `Card`.
 - **Hover capability:** Tailwind's `hover:` and `group-hover:` variants only apply behind
   `@media (hover: hover)`, so utilities are safe on touch. Bare CSS hovers are not — wrap them
   yourself (the card lift above does, see `@media (hover: hover) and (pointer: fine)`).

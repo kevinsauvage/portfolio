@@ -8,29 +8,11 @@ import { sections } from '@/config/content';
 import type { Project } from '@/config/content/projects';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
 
-import { BookOpen, Check, ExternalLink } from 'lucide-react';
+import { BookOpen, ExternalLink } from 'lucide-react';
 
 type ProjectCardProps = {
   project: Project;
   index: number;
-};
-
-const ProjectHighlights = ({ highlights }: { highlights: string[] }) => {
-  return (
-    <ul className='grid gap-2 sm:grid-cols-2'>
-      {highlights.map(highlight => (
-        <li key={highlight} className='flex items-start gap-2'>
-          <Check
-            size={15}
-            strokeWidth={2}
-            className='mt-0.5 shrink-0 text-primary-400'
-            aria-hidden='true'
-          />
-          <BodySmall className='text-zinc-300'>{highlight}</BodySmall>
-        </li>
-      ))}
-    </ul>
-  );
 };
 
 const TechStackTags = ({
@@ -109,9 +91,8 @@ const ProjectActionButtons = ({
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const { slug, title, description, technologies, images, websiteLink, githubUrl } = project;
-  const { role, timeline, highlights } = project;
+  const { role, timeline } = project;
   const meta = [role, timeline].filter(Boolean).join(' · ');
-  const media = images.mobile ?? images.thumbnail;
 
   return (
     <Card hover='standard' size='md' glow='primary-secondary' className='group relative h-full'>
@@ -119,42 +100,39 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         aria-hidden='true'
         className='pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/60 to-transparent'
       />
-      <CardContent spacing='md' className='relative z-10 h-full pt-6'>
-        <div className='grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-8'>
-          <div className='relative'>
-            <div className='absolute -left-2 -top-2 z-10'>
-              <NumberBadge number={index + 1} />
-            </div>
-            <CardImage
-              src={media.src}
-              alt={media.alt}
-              aspectRatio='portrait'
-              width={780}
-              height={1688}
-              objectPosition='top'
-              sizes='(max-width: 1024px) 100vw, 420px'
-            />
-          </div>
-
-          <div className='flex flex-col gap-4'>
-            {meta && (
-              <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>
-                {meta}
-              </p>
-            )}
-            <H3
-              id={`project-title-${index}`}
-              size='sm'
-              className='transition-colors duration-300 group-hover:text-primary-400'
-            >
-              {title}
-            </H3>
-            <BodySmall className='text-zinc-200'>{description}</BodySmall>
-            {highlights && highlights.length > 0 && <ProjectHighlights highlights={highlights} />}
-            <TechStackTags technologies={technologies} limit={8} />
-            <ProjectActionButtons slug={slug} websiteLink={websiteLink} githubUrl={githubUrl} />
-          </div>
+      <CardContent spacing='md' className='relative z-10 h-full'>
+        <div className='flex items-center gap-3'>
+          <NumberBadge number={index + 1} />
+          {meta && (
+            <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>
+              {meta}
+            </p>
+          )}
         </div>
+
+        <H3
+          id={`project-title-${index}`}
+          size='sm'
+          className='transition-colors duration-300 group-hover:text-primary-400'
+        >
+          {title}
+        </H3>
+
+        <CardImage
+          src={images.thumbnail.src}
+          alt={images.thumbnail.alt}
+          aspectRatio='wide'
+          width={1200}
+          height={750}
+          sizes='(max-width: 1024px) 100vw, 900px'
+          className='md:aspect-[2.4/1]'
+        />
+
+        <BodySmall className='text-zinc-200'>{description}</BodySmall>
+
+        <TechStackTags technologies={technologies} limit={8} />
+
+        <ProjectActionButtons slug={slug} websiteLink={websiteLink} githubUrl={githubUrl} />
       </CardContent>
     </Card>
   );
