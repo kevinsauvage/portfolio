@@ -109,7 +109,7 @@ Type components (`src/components/ui/Typography`):
   keyboard users get the same affordance (see `globals.css` + `Card`/`CardImage`).
 - **Project card:** `ProjectCard` is a split card on `lg` — a portrait phone capture (from
   `npm run screenshots -- --mobile`) beside the pitch, highlights, stack and actions. The phone
-  frame is `aspect-[4/5]` with `object-top`, so the header and hero stay visible instead of the
+  frame is `aspect-[9/16]` with `object-top`, so the header and hero stay visible instead of the
   screenshot being cropped mid-word. Content is always visible: nothing depends on hover, and the
   card is fully in the DOM for crawlers and assistive tech.
 - **Hover capability:** Tailwind's `hover:` and `group-hover:` variants only apply behind
