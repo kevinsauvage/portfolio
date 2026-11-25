@@ -23,15 +23,9 @@ declare global {
 
 export type AnalyticsEventData = Record<string, unknown>;
 
-/** Result of a `track*` call. */
 export type TrackStatus = 'sent' | 'dropped';
 
-/**
- * Mirrors GA4's documented parameter limits, so a payload never reaches the
- * dataLayer with values the tag would silently truncate or reject.
- *
- * @see https://support.google.com/analytics/answer/9267744
- */
+/** GA4's documented limits; @see https://support.google.com/analytics/answer/9267744 */
 const MAX_EVENT_DATA_PROPERTIES = 25;
 const MAX_STRING_LENGTH = 100;
 
@@ -48,20 +42,13 @@ function isDoNotTrackEnabled(): boolean {
   return doNotTrack === '1' || doNotTrack === 'yes';
 }
 
-/**
- * Guards against polluting production analytics from dev/test.
- * Set `NEXT_PUBLIC_ANALYTICS_ENABLE_IN_DEV=true` to opt in locally.
- */
+/** `NEXT_PUBLIC_ANALYTICS_ENABLE_IN_DEV=true` opts in locally. */
 function isAnalyticsEnabled(): boolean {
   if (process.env.NODE_ENV === 'production') return true;
   return process.env['NEXT_PUBLIC_ANALYTICS_ENABLE_IN_DEV'] === 'true';
 }
 
-/**
- * Every signal that gates a send: the browser has to exist, tracking has to be
- * enabled for this environment, the visitor must not have opted out via DNT,
- * and the banner must have granted analytics storage.
- */
+/** Send only with a browser, tracking enabled, no DNT, and analytics consent. */
 function canTrack(): boolean {
   return isBrowser() && isAnalyticsEnabled() && !isDoNotTrackEnabled() && hasAnalyticsConsent();
 }
@@ -91,11 +78,7 @@ function sanitizeValue(value: unknown): string | number | boolean | undefined {
   return undefined;
 }
 
-/**
- * Coerces arbitrary event data to GA4's documented limits: strings ≤ 100 chars,
- * numbers ≤ 4 decimal places, arrays stringified (≤ 100 chars), objects
- * stringified (≤ 100 chars), at most 25 properties. Drops unserializable values.
- */
+/** Clamps to GA4's limits (100 chars, 4 decimals, 25 props); drops unserializable. */
 export function sanitizeEventData(
   data?: AnalyticsEventData
 ): Record<string, string | number | boolean> {
@@ -112,20 +95,13 @@ export function sanitizeEventData(
 function pushToDataLayer(payload: Record<string, unknown>): void {
   if (!isBrowser()) return;
 
-  // The assignment gets its own statement: folding it into the `push` call
-  // hides a side effect inside a sub-expression.
   globalThis.window.dataLayer ??= [];
   globalThis.window.dataLayer.push(payload);
 }
 
 /**
- * Tracks a custom event through the GTM dataLayer. Never throws and never
- * blocks the caller: returns `'sent'` when pushed, or `'dropped'` when tracking
- * is disabled (SSR, dev without opt-in, DNT) or analytics consent is missing.
- *
- * There is no queue: the dataLayer *is* the queue, so events pushed before
- * `gtm.js` loads are replayed by GTM. Events before consent are dropped on
- * purpose — holding them would mean tracking a visitor who refused.
+ * Never throws. No queue: the dataLayer is the queue, so events pushed before
+ * `gtm.js` are replayed. Pre-consent events are dropped on purpose.
  */
 export function trackEvent(eventName: string, data?: AnalyticsEventData): TrackStatus {
   if (!eventName || !canTrack()) return 'dropped';

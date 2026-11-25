@@ -79,3 +79,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Comments
+
+A last resort, and never more than one to three lines: the non-obvious _why_ (a lock, a dynamic import, a platform quirk), units, or a fail-closed rule. Never narration, field JSDoc, stage banners or history. Budget: under ~5 % of hand-written source lines; generated files and forks are exempt.

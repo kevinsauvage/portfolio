@@ -1,12 +1,8 @@
 import 'server-only';
 
 /**
- * Abuse protection for the public contact action.
- *
- * Counters live in Upstash Redis (through its REST API) when the deployment
- * provides credentials, so a window holds across serverless instances and
- * survives cold starts. Without credentials — or if Redis is unreachable — it
- * degrades to a best-effort in-memory window. reCAPTCHA stays the primary gate.
+ * Contact-form rate limit: Upstash REST when configured (survives cold starts),
+ * else a best-effort in-memory window. reCAPTCHA stays the primary gate.
  */
 
 const WINDOW_MS = 60_000;
@@ -44,12 +40,7 @@ function pruneExpired(now: number): void {
   }
 }
 
-/**
- * Bounds memory before a new key is inserted. Expired windows are dropped
- * first; if the map is still full (many live windows in the same minute), the
- * oldest insertions are evicted, so the cost stays proportional to the eviction
- * rather than a full scan on every request.
- */
+/** Drops expired windows, then the oldest: never a full scan per request. */
 function enforceCapacity(now: number): void {
   if (windows.size < MAX_TRACKED_KEYS) return;
 
@@ -87,10 +78,8 @@ function getRedisConfig(): RedisConfig | null {
 }
 
 /**
- * Fixed window in one MULTI/EXEC round trip: `INCR` counts, `PEXPIRE ... NX`
- * stamps the window only when the key has no expiry yet, `PTTL` reports the time
- * left. Because the key can never exist without a TTL, a client cannot be
- * blocked forever by an expiry landing between separate commands.
+ * One MULTI/EXEC round trip: `INCR`, `PEXPIRE NX`, `PTTL`. The key never exists
+ * without a TTL, so nothing can be blocked forever.
  */
 async function checkRedis(
   config: RedisConfig,
@@ -124,7 +113,6 @@ async function checkRedis(
   if (!Number.isFinite(count)) throw new Error('Upstash returned no counter');
 
   const ttl = Number(results[2]?.result);
-  // A negative TTL means "no expiry"; report a full window rather than 0.
   const ttlMs = Number.isFinite(ttl) && ttl > 0 ? ttl : windowMs;
   if (count > max) {
     return {
@@ -135,10 +123,7 @@ async function checkRedis(
   return { allowed: true, retryAfterSeconds: 0 };
 }
 
-/**
- * Consumes one slot for `key`. Durable when Upstash is configured, otherwise
- * in-memory. Never throws: a Redis failure degrades to the local window.
- */
+/** Never throws: a Redis failure degrades to the local window. */
 export async function checkRateLimit(
   key: string,
   options: RateLimitOptions = {}
@@ -155,7 +140,6 @@ export async function checkRateLimit(
   return checkInMemory(key, max, windowMs, Date.now());
 }
 
-/** Test-only: clears tracked windows between cases. */
 export function resetRateLimit(): void {
   windows.clear();
 }

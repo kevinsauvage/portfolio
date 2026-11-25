@@ -1,7 +1,6 @@
 // @ts-check
 /** @typedef {import('./csp.config').CSPDirectives} CSPDirectives */
 
-/** Hosts allowed to run scripts (in addition to inline scripts). */
 const SCRIPT_SRC_HOSTS = [
   'https://www.googletagmanager.com',
   'https://www.google-analytics.com',
@@ -9,23 +8,19 @@ const SCRIPT_SRC_HOSTS = [
   'https://www.gstatic.com',
 ];
 
-/** Vercel's preview toolbar; never needed (or allowed) on production. */
 const VERCEL_PREVIEW_HOST = 'https://vercel.live';
 
 const isVercelPreview = () => process.env.VERCEL_ENV === 'preview';
 
 /**
- * Every directive except `script-src`, which is built in {@link buildCsp}.
- * Sentry traffic goes through the same-origin `/monitoring` tunnel, and fonts
- * are self-hosted by `next/font`.
+ * Every directive except `script-src` (built in {@link buildCsp}). Sentry goes
+ * through the same-origin `/monitoring` tunnel.
  *
  * @type {CSPDirectives}
  */
 export const cspDirectives = {
   'default-src': ["'self'"],
-  // Allow Web Workers created from same-origin and blob: URLs
   'worker-src': ["'self'", 'blob:'],
-  // Legacy fallback for some browsers
   'child-src': ["'self'", 'blob:'],
   'connect-src': [
     "'self'",
@@ -48,15 +43,9 @@ export const cspDirectives = {
 };
 
 /**
- * Builds the CSP header value. Applied as a static header in `next.config.mjs`.
- *
- * Inline scripts are allowed via `'unsafe-inline'` instead of a per-request
- * nonce. A nonce can only be attached during server-side rendering, which pins
- * every route to dynamic rendering — and this site is fully prerendered. See
- * the CSP notes in README.md for what that gives up.
- *
- * `'unsafe-eval'` is only added outside production, where React tooling and
- * HMR still need it; the production header must not carry it.
+ * Static header (`next.config.mjs`). `'unsafe-inline'` instead of a nonce: a
+ * nonce pins every route to dynamic rendering and this site is prerendered.
+ * `'unsafe-eval'` is dev-only and must never reach production.
  *
  * @returns {string}
  */
