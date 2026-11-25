@@ -10,7 +10,7 @@ type Properties = {
 };
 
 const Label = ({ children, className, required, ...rest }: Properties) => (
-  <label className={clsx('flex text-lg text-zinc-300', className)} {...rest}>
+  <label className={clsx('flex text-sm font-medium text-zinc-200', className)} {...rest}>
     {required ? (
       <span className='relative w-fit'>
         {children}

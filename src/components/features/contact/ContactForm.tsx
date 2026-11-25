@@ -191,7 +191,7 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
       <div
         ref={successRef}
         tabIndex={-1}
-        className='mx-auto flex w-full max-w-3xl flex-col items-center gap-6 rounded-lg border border-primary-800/50 bg-primary-950/20 px-6 py-12 text-center outline-none'
+        className='mx-auto flex w-full max-w-3xl flex-col items-center gap-6 rounded-2xl border border-primary-800/50 bg-primary-950/20 px-6 py-12 text-center outline-none ring-1 ring-inset ring-white/[0.04]'
       >
         <span
           className='inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/15 text-primary-300'
@@ -218,16 +218,21 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className='flex flex-col w-full bg-black/25 backdrop-blur-md border border-zinc-800 rounded-lg py-6 px-6 md:p-8 max-w-3xl mx-auto'
+      className='mx-auto flex w-full max-w-3xl flex-col gap-5 rounded-2xl border border-zinc-800/80 bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 p-6 text-left shadow-2xl shadow-black/40 ring-1 ring-inset ring-white/[0.04] md:p-8'
       aria-label={copy.ariaLabel}
       noValidate
     >
       <output className='sr-only' aria-live='polite' aria-atomic='true'>
         {isSubmitting ? copy.announceSubmitting : fieldErrorAnnouncement}
       </output>
-      <div className='space-y-6'>
+
+      <div className='space-y-1.5'>
+        <H3 size='sm'>{copy.title}</H3>
         <p className='text-sm text-zinc-400'>{copy.requiredHint}</p>
-        <div className='flex flex-col space-y-2'>
+      </div>
+
+      <div className='grid gap-5 sm:grid-cols-2'>
+        <div className='flex flex-col gap-2'>
           <Label htmlFor='fullName' required>
             {copy.labels.fullName}
           </Label>
@@ -248,7 +253,7 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
           {fieldErrors.fullName && <FormError id='fullName-error' message={fieldErrors.fullName} />}
         </div>
 
-        <div className='flex flex-col space-y-2'>
+        <div className='flex flex-col gap-2'>
           <Label htmlFor='email' required>
             {copy.labels.email}
           </Label>
@@ -267,41 +272,34 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
           />
           {fieldErrors.email && <FormError id='email-error' message={fieldErrors.email} />}
         </div>
+      </div>
 
-        <div className='flex flex-col space-y-2'>
-          <Label htmlFor='message' required>
-            {copy.labels.message}
-          </Label>
-          <TextArea
-            id='message'
-            name='message'
-            placeholder={copy.placeholders.message}
-            required
-            maxLength={CONTACT_FIELD_LIMITS.message}
-            aria-required='true'
-            aria-invalid={!!fieldErrors.message}
-            aria-describedby={fieldErrors.message ? 'message-error' : undefined}
-            autoComplete='off'
-            onBlur={handleFieldBlur}
-          />
-          {fieldErrors.message && <FormError id='message-error' message={fieldErrors.message} />}
-        </div>
-
-        {captchaError && (
-          <FormError id='captcha-error' message={captchaError} className='justify-center' />
-        )}
-
-        <Button
-          className='mt-2 w-full sm:w-auto'
-          svg={<LucideSend size={18} aria-hidden='true' />}
-          label={isSubmitting ? copy.submitting : copy.submit}
-          type='submit'
-          disabled={isSubmitting}
-          variant='primary'
-          size='md'
+      <div className='flex flex-col gap-2'>
+        <Label htmlFor='message' required>
+          {copy.labels.message}
+        </Label>
+        <TextArea
+          id='message'
+          name='message'
+          placeholder={copy.placeholders.message}
+          required
+          rows={5}
+          maxLength={CONTACT_FIELD_LIMITS.message}
+          aria-required='true'
+          aria-invalid={!!fieldErrors.message}
+          aria-describedby={fieldErrors.message ? 'message-error' : undefined}
+          autoComplete='off'
+          onBlur={handleFieldBlur}
         />
+        {fieldErrors.message && <FormError id='message-error' message={fieldErrors.message} />}
+      </div>
 
-        <p className='text-xs leading-relaxed text-zinc-400'>
+      {captchaError && (
+        <FormError id='captcha-error' message={captchaError} className='justify-start' />
+      )}
+
+      <div className='flex flex-col-reverse gap-4 border-t border-zinc-800/70 pt-5 sm:flex-row sm:items-center sm:justify-between'>
+        <p className='text-xs leading-relaxed text-zinc-400 sm:max-w-sm'>
           This site is protected by reCAPTCHA and the Google{' '}
           <a
             href='https://policies.google.com/privacy'
@@ -324,6 +322,16 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
           </a>{' '}
           apply.
         </p>
+
+        <Button
+          className='w-full sm:w-auto'
+          svg={<LucideSend size={18} aria-hidden='true' />}
+          label={isSubmitting ? copy.submitting : copy.submit}
+          type='submit'
+          disabled={isSubmitting}
+          variant='primary'
+          size='md'
+        />
       </div>
     </form>
   );
