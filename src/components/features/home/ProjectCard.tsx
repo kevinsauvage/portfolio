@@ -15,54 +15,6 @@ type ProjectCardProps = {
   index: number;
 };
 
-const ProjectImage = ({ images, index }: { images: Project['images']; index: number }) => {
-  return (
-    <div className='relative w-full'>
-      <div className='absolute -left-2 -top-2 z-10'>
-        <NumberBadge number={index + 1} />
-      </div>
-      <CardImage
-        src={images.thumbnail.src}
-        alt={images.thumbnail.alt}
-        aspectRatio='wide'
-        width={1200}
-        height={750}
-        sizes='(max-width: 1024px) 100vw, 1024px'
-      />
-    </div>
-  );
-};
-
-const ProjectTitleAndDescription = ({
-  title,
-  description,
-  meta,
-  index,
-}: {
-  title: string;
-  description: string;
-  meta?: string;
-  index: number;
-}) => {
-  return (
-    <div className='space-y-3'>
-      {meta && (
-        <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>{meta}</p>
-      )}
-      <H3
-        id={`project-title-${index}`}
-        size='sm'
-        className='transition-colors duration-300 group-hover:text-primary-400'
-      >
-        {title}
-      </H3>
-      <BodySmall className='max-w-3xl transition-colors leading-relaxed text-zinc-200'>
-        {description}
-      </BodySmall>
-    </div>
-  );
-};
-
 const ProjectHighlights = ({ highlights }: { highlights: string[] }) => {
   return (
     <ul className='grid gap-2 sm:grid-cols-2'>
@@ -81,12 +33,27 @@ const ProjectHighlights = ({ highlights }: { highlights: string[] }) => {
   );
 };
 
-const TechStackTags = ({ technologies }: { technologies: Array<{ name: string }> }) => {
+const TechStackTags = ({
+  technologies,
+  limit,
+}: {
+  technologies: Array<{ name: string }>;
+  limit?: number;
+}) => {
+  const visible = limit === undefined ? technologies : technologies.slice(0, limit);
+  const hidden = technologies.length - visible.length;
+
   return (
     <div className='flex flex-wrap gap-1.5'>
-      {technologies.map(({ name }) => (
+      {visible.map(({ name }) => (
         <Tag key={name}>{name}</Tag>
       ))}
+      {hidden > 0 && (
+        <Tag>
+          +{hidden}
+          <span className='sr-only'> more technologies</span>
+        </Tag>
+      )}
     </div>
   );
 };
@@ -101,7 +68,7 @@ const ProjectActionButtons = ({
   githubUrl: string | undefined;
 }) => {
   return (
-    <div className='flex flex-wrap gap-3 pt-2 mt-auto'>
+    <div className='flex flex-wrap gap-3'>
       <ButtonLink
         href={`/projects/${slug}`}
         svg={<BookOpen size={16} aria-hidden='true' />}
@@ -144,6 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const { slug, title, description, technologies, images, websiteLink, githubUrl } = project;
   const { role, timeline, highlights } = project;
   const meta = [role, timeline].filter(Boolean).join(' · ');
+  const media = images.mobile ?? images.thumbnail;
 
   return (
     <Card hover='standard' size='md' glow='primary-secondary' className='group relative h-full'>
@@ -151,18 +119,39 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         aria-hidden='true'
         className='pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/60 to-transparent'
       />
-      <CardContent spacing='lg' className='relative z-10 h-full pt-6'>
-        <div className='space-y-6'>
-          <ProjectImage images={images} index={index} />
-          <div className='flex flex-col space-y-5'>
-            <ProjectTitleAndDescription
-              title={title}
-              description={description}
-              index={index}
-              {...(meta && { meta })}
+      <CardContent spacing='md' className='relative z-10 h-full pt-6'>
+        <div className='grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-8'>
+          <div className='relative'>
+            <div className='absolute -left-2 -top-2 z-10'>
+              <NumberBadge number={index + 1} />
+            </div>
+            <CardImage
+              src={media.src}
+              alt={media.alt}
+              aspectRatio='portrait'
+              width={780}
+              height={1688}
+              objectPosition='top'
+              sizes='(max-width: 1024px) 100vw, 420px'
             />
+          </div>
+
+          <div className='flex flex-col gap-4'>
+            {meta && (
+              <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>
+                {meta}
+              </p>
+            )}
+            <H3
+              id={`project-title-${index}`}
+              size='sm'
+              className='transition-colors duration-300 group-hover:text-primary-400'
+            >
+              {title}
+            </H3>
+            <BodySmall className='text-zinc-200'>{description}</BodySmall>
             {highlights && highlights.length > 0 && <ProjectHighlights highlights={highlights} />}
-            <TechStackTags technologies={technologies} />
+            <TechStackTags technologies={technologies} limit={8} />
             <ProjectActionButtons slug={slug} websiteLink={websiteLink} githubUrl={githubUrl} />
           </div>
         </div>

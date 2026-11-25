@@ -100,10 +100,18 @@ Type components (`src/components/ui/Typography`):
 - `prefers-reduced-motion: reduce` globally collapses durations to `0.01ms` and disables
   `card-enter`/`reveal` animations (`globals.css`).
 - Nothing loops past 5s without user action (RGAA 13.8 / WCAG 2.2.2): always-visible
-  `MeshGradient` backgrounds use `animate-mesh-once` (single 5s pass), `animate-mesh-slow` is
-  hover/focus-only on cards, and status `animate-ping` dots are capped at 5 iterations.
+  `MeshGradient` backgrounds use `animate-mesh-once` (single 5s pass), and status `animate-ping` dots
+  are capped at 5 iterations. **Exception to review:** card surfaces use `.mesh-drift`, an
+  always-running transform drift that is hidden on hover/focus and stopped by
+  `prefers-reduced-motion`; an infinite loop has no user control, so treat it as a known
+  trade-off (swapping it for `animate-mesh-once` restores strict compliance).
 - **Hover parity:** card lift (`--hover-transform`) and glow/zoom are mirrored on `:focus-within` so
   keyboard users get the same affordance (see `globals.css` + `Card`/`CardImage`).
+- **Project card:** `ProjectCard` is a split card on `lg` — a portrait phone capture (from
+  `npm run screenshots -- --mobile`) beside the pitch, highlights, stack and actions. The phone
+  frame is `aspect-[4/5]` with `object-top`, so the header and hero stay visible instead of the
+  screenshot being cropped mid-word. Content is always visible: nothing depends on hover, and the
+  card is fully in the DOM for crawlers and assistive tech.
 - **Hover capability:** Tailwind's `hover:` and `group-hover:` variants only apply behind
   `@media (hover: hover)`, so utilities are safe on touch. Bare CSS hovers are not — wrap them
   yourself (the card lift above does, see `@media (hover: hover) and (pointer: fine)`).

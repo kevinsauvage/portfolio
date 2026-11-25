@@ -154,6 +154,21 @@
   }
 }
 
+.mesh-drift {
+  animation: meshDrift 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes meshDrift {
+  from {
+    transform: translate3d(-4%, -2%, 0) scale(1.05);
+  }
+
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.14);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
