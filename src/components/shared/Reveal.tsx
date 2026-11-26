@@ -3,6 +3,7 @@ import clsx from 'clsx';
 type RevealProps = {
   children: React.ReactNode;
   className?: string;
+  id?: string;
   /** Stagger delay in ms for sequential reveals. */
   delay?: number;
   /** Render as a different element (defaults to `div`). */
@@ -19,9 +20,10 @@ type RevealProps = {
  * was ~197 KB of the 388 KB document. It is also the reason `noscript` in the
  * root layout un-hides `.reveal`: without JS nothing would add `.is-visible`.
  */
-const Reveal = ({ children, className, delay = 0, as: Component = 'div' }: RevealProps) => {
+const Reveal = ({ children, className, id, delay = 0, as: Component = 'div' }: RevealProps) => {
   return (
     <Component
+      id={id}
       style={delay > 0 ? { transitionDelay: `${delay}ms` } : undefined}
       className={clsx('reveal', className)}
     >

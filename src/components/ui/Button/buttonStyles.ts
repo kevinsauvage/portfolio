@@ -16,8 +16,8 @@ const getButtonVariantClasses = (variant: ButtonVariant): string => {
   return clsx(
     variant === 'primary' &&
       clsx(
-        'text-zinc-950 font-semibold rounded-md',
-        'bg-primary-500 hover:bg-primary-400 focus:ring-2 focus:outline-none focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-black shadow-lg shadow-primary-500/25 hover:shadow-glow-md group'
+        'text-zinc-950 font-semibold rounded-lg',
+        'bg-primary-500 hover:bg-primary-400 focus:ring-2 focus:outline-none focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-black shadow-md hover:shadow-lift-md group'
       ),
     variant === 'secondary' &&
       clsx(

@@ -12,9 +12,9 @@ const Home = () => {
     <div className='h-full w-full grow flex flex-col justify-between m-auto'>
       <Hero />
       <AboutSection />
+      <PortfolioSection />
       <CareerSection />
       <TestimonialsSection />
-      <PortfolioSection />
       <CertificationsSection />
       <FaqSection />
       <ContactSection />

@@ -14,9 +14,9 @@ const PADDING_CLASSES = {
 
 const HOVER_CLASSES = {
   none: '',
-  subtle: 'hover:shadow-glow-sm focus-within:shadow-glow-sm',
-  standard: 'hover:shadow-glow-md focus-within:shadow-glow-md',
-  pronounced: 'hover:shadow-glow-lg focus-within:shadow-glow-lg',
+  subtle: 'hover:shadow-lift-sm focus-within:shadow-lift-sm',
+  standard: 'hover:shadow-lift-md focus-within:shadow-lift-md',
+  pronounced: 'hover:shadow-lift-lg focus-within:shadow-lift-lg',
 } as const;
 
 const HOVER_TRANSFORMS = {

@@ -234,7 +234,7 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
         className='pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary-400/60 to-transparent md:hidden'
       />
 
-      <div className='px-6 py-5 md:px-8 md:py-6'>
+      <div className='px-4 py-3 sm:px-6 sm:py-5 md:px-8 md:py-6'>
         {showPreferences ? (
           <form onSubmit={handleSave}>
             <div className='flex items-start gap-4'>
@@ -269,12 +269,12 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
             </div>
           </form>
         ) : (
-          <div className='flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between'>
+          <div className='flex flex-col gap-3 sm:gap-5 lg:flex-row lg:items-center lg:justify-between'>
             <div className='flex min-w-0 items-start gap-4'>
               <IconTile icon={Cookie} className='size-10' />
               <div>
                 <H4 id='cookie-banner-title'>{copy.banner.title}</H4>
-                <BodySmall className='max-w-2xl mt-1.5 text-zinc-400'>
+                <BodySmall className='max-w-2xl mt-1 sm:mt-1.5 text-zinc-400'>
                   {copy.banner.description}
                 </BodySmall>
               </div>
@@ -285,7 +285,7 @@ const CookieBanner = ({ openSettings = false }: Properties) => {
                 type='button'
                 onClick={() => setShowPreferences(true)}
                 className={clsx(
-                  'order-3 inline-flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800/60 hover:text-zinc-50 sm:order-none sm:w-auto sm:justify-start',
+                  'order-3 inline-flex w-full items-center justify-center gap-2 rounded-md px-3 py-1.5 sm:py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800/60 hover:text-zinc-50 sm:order-none sm:w-auto sm:justify-start',
                   FOCUS_RING
                 )}
               >

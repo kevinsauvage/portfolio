@@ -1,5 +1,5 @@
 import Reveal from '@/components/shared/Reveal';
-import Section, { SectionHeader } from '@/components/ui/Section';
+import Section, { SECTION_STACK, SectionHeader } from '@/components/ui/Section';
 import { sections } from '@/config/content';
 import projects from '@/config/content/projects';
 
@@ -8,9 +8,8 @@ import ProjectCard from './ProjectCard';
 const PortfolioSection: React.FC = () => {
   return (
     <Section id='portfolio'>
-      <div className='space-y-24'>
+      <div className={SECTION_STACK}>
         <SectionHeader
-          overline={sections.portfolio.overline}
           title={sections.portfolio.title}
           description={sections.portfolio.description}
         />

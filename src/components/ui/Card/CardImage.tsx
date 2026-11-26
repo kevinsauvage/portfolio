@@ -35,7 +35,7 @@ export const CardImage = ({
   return (
     <div
       className={clsx(
-        'relative w-full rounded-lg overflow-hidden border border-zinc-800 group-hover:border-primary-500/50 group-focus-within:border-primary-500/50 transition-[border-color,box-shadow] duration-200 shadow-lg group-hover:shadow-glow-md group-focus-within:shadow-glow-md',
+        'relative w-full rounded-lg overflow-hidden border border-zinc-800 group-hover:border-primary-500/50 group-focus-within:border-primary-500/50 transition-[border-color,box-shadow] duration-200 shadow-lg group-hover:shadow-lift-md group-focus-within:shadow-lift-md',
         // eslint-disable-next-line security/detect-object-injection -- keyed by a typed union
         ASPECT_CLASSES[aspectRatio],
         className

@@ -46,17 +46,17 @@ Fonts (loaded in `src/app/layout.tsx` via `next/font/google`):
 
 Type components (`src/components/ui/Typography`):
 
-| Component   | Element | Size                                                 | Weight   | Notes                  |
-| ----------- | ------- | ---------------------------------------------------- | -------- | ---------------------- |
-| `Display`   | `h1`    | `text-5xl md:text-6xl lg:text-7xl`                   | bold     | Hero only              |
-| `H1`        | `h1`    | `text-4xl md:text-6xl`                               | bold     | Page titles            |
-| `H2`        | `h2`    | `text-3xl md:text-5xl`                               | bold     | Section titles (solid) |
-| `H3`        | `h3`    | `text-2xl md:text-3xl` (`sm`: `text-xl md:text-2xl`) | semibold | Card titles            |
-| `H4`        | `h4`    | `text-xl md:text-2xl`                                | semibold | Sub-sections           |
-| `Body`      | `p`     | `text-base md:text-lg`                               | normal   | Long-form copy         |
-| `BodySmall` | `p`     | `text-sm md:text-base`                               | normal   | Dense copy / card text |
-| `Caption`   | `span`  | `text-sm`                                            | medium   | Metadata               |
-| `Overline`  | `p`     | `text-xs` mono, uppercase, tracked                   | medium   | Section eyebrow        |
+| Component   | Element | Size                                                 | Weight   | Notes                                                                  |
+| ----------- | ------- | ---------------------------------------------------- | -------- | ---------------------------------------------------------------------- |
+| `Display`   | `h1`    | `text-4xl md:text-5xl lg:text-6xl`                   | bold     | Hero only                                                              |
+| `H1`        | `h1`    | `text-4xl md:text-6xl`                               | bold     | Page titles                                                            |
+| `H2`        | `h2`    | `text-3xl md:text-5xl`                               | bold     | Section titles (solid)                                                 |
+| `H3`        | `h3`    | `text-2xl md:text-3xl` (`sm`: `text-xl md:text-2xl`) | semibold | Card titles                                                            |
+| `H4`        | `h4`    | `text-xl md:text-2xl`                                | semibold | Sub-sections                                                           |
+| `Body`      | `p`     | `text-base md:text-lg`                               | normal   | Long-form copy                                                         |
+| `BodySmall` | `p`     | `text-sm md:text-base`                               | normal   | Dense copy / card text                                                 |
+| `Caption`   | `span`  | `text-sm`                                            | medium   | Metadata                                                               |
+| `Overline`  | `p`     | `text-xs` mono, uppercase, tracked                   | medium   | Legal and case-study pages only (no eyebrow above home section titles) |
 
 **Rules**
 
@@ -69,6 +69,11 @@ Type components (`src/components/ui/Typography`):
 
 - **Content width:** `Section` owns `max-w-5xl m-auto w-full px-6`. Pages do **not** add their own
   `container`/`px-6` around sections (single source of width + gutter).
+- **Header → body gap:** every home section wraps its header and body in `SECTION_STACK`
+  (`space-y-12 md:space-y-16`, exported by `Section`); never hand-pick another value. `SectionHeader`
+  uses the `H2` default (`text-3xl md:text-5xl`), one step below the hero `Display`.
+- **Surfaces:** cards, the testimonial card and the FAQ list share `rounded-xl`,
+  `border-zinc-800/80` and the `zinc-900/50 → zinc-950/80` gradient; pills are `rounded-full px-4 py-2`.
 - **Section vertical rhythm** (`Section` `spacing` prop): `sm` `py-16 md:py-24`, `md` `py-20 md:py-32`
   (default), `lg` `py-24 md:py-40`, `xl` `py-32 md:py-48`.
 - **Card padding** (`Card` `size` prop): `sm` `p-4 sm:p-5`, `md` `p-6 sm:p-7 md:p-8`,
@@ -83,7 +88,7 @@ Type components (`src/components/ui/Typography`):
 | Token group | Values                                                                                                                     |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------- |
 | Radius      | `rounded-md` (controls), `rounded-lg` (media/inputs), `rounded-xl` (cards), `rounded-2xl` (panels), `rounded-full` (pills) |
-| Shadows     | `shadow-glow-sm/md/lg` — emerald glow (`rgba(34,197,94, …)`) for primary cards/CTAs                                        |
+| Shadows     | `shadow-lift-sm/md/lg` — neutral elevation (offset, soft black blur) for cards and CTAs; no colored halos                  |
 | Durations   | `100ms` (press), `150–200ms` (hover/color/transform), `400ms` (carousel slide), `700ms` (reveal)                           |
 | Easing      | `--ease-out` in `@theme` — a strong custom curve that overrides Tailwind's default                                         |
 
@@ -93,7 +98,7 @@ Type components (`src/components/ui/Typography`):
   motion/IO unavailable, so content is never trapped at `opacity: 0`.
 - Card grids stagger with one `<Reveal delay={index * 60}>` per card, so a card animates when it
   scrolls into view rather than at page load. `Card`'s `animationIndex` (`card-enter`) remains for
-  elements that are not part of a scroll-triggered grid: the hero stats, the mobile-menu items and
+  elements that are not part of a scroll-triggered grid: the hero contact links, the mobile-menu items and
   the testimonial card (which remounts per slide).
 - Grid placement for a wrapped card lives on the `<Reveal>` wrapper (e.g. the featured
   certification's `lg:col-span-2`), because the wrapper is the grid item.

@@ -1,4 +1,4 @@
-import HeroStats from '@/components/features/home/HeroStats';
+import HeroContact from '@/components/features/home/HeroContact';
 import GridBackground from '@/components/shared/GridBackground';
 import MeshGradient from '@/components/shared/MeshGradient';
 import ButtonLink from '@/components/ui/Button/ButtonLink';
@@ -32,14 +32,6 @@ const Hero = () => {
             observer un-hides it, which made the hero H1 — the LCP element — paint
             only after the 0.7s transition. A CSS animation starts at first paint. */}
         <header className='card-enter z-10 mb-8 flex flex-col justify-center items-center'>
-          <p className='mb-6 inline-flex items-center gap-2.5 rounded-full border border-primary-800/60 bg-primary-950/40 px-4 py-1.5 font-mono text-xs font-medium tracking-[0.18em] uppercase text-primary-300'>
-            <span className='relative flex h-2 w-2' aria-hidden='true'>
-              <span className='animate-ping [animation-iteration-count:5] absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75' />
-              <span className='relative inline-flex rounded-full h-2 w-2 bg-primary-400' />
-            </span>
-            <span className='sr-only'>Availability: </span>
-            {sections.hero.availability}
-          </p>
           <Display id='hero-title' className='mb-6 max-w-5xl text-center md:flex md:flex-col'>
             <span>{sections.hero.title.firstLine}</span>{' '}
             <span className={clsx(GRADIENT_TEXT, 'bg-[length:200%_auto]')}>
@@ -64,7 +56,7 @@ const Hero = () => {
             eventName={ANALYTICS_EVENTS.NAV_SECTION_CLICK}
             eventProperties={{ location: 'hero', section: 'Career' }}
             aria-describedby='hero-description'
-            className='w-full sm:w-auto min-w-[220px] font-semibold shadow-glow-md hover:shadow-glow-lg'
+            className='w-full sm:w-auto min-w-[220px] font-semibold shadow-lift-md hover:shadow-lift-lg'
           />
           <ButtonLink
             href={layout.header.resumeHref}
@@ -82,13 +74,13 @@ const Hero = () => {
         </div>
 
         <div className='hidden md:block w-full'>
-          <HeroStats />
+          <HeroContact />
         </div>
       </section>
 
-      {/* Stats — below the fold on mobile only */}
+      {/* Social links — below the fold on mobile only */}
       <div className='block md:hidden relative z-10 px-6 pb-8'>
-        <HeroStats />
+        <HeroContact />
       </div>
     </div>
   );

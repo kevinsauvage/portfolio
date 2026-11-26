@@ -4,7 +4,7 @@ import ContactInfo from '@/components/shared/ContactInfo';
 import GoogleReCaptchaProviderWrapper from '@/components/shared/GoogleReCaptchaProviderWrapper';
 import MeshGradient from '@/components/shared/MeshGradient';
 import Reveal from '@/components/shared/Reveal';
-import Section, { SectionHeader } from '@/components/ui/Section';
+import Section, { SECTION_STACK, SectionHeader } from '@/components/ui/Section';
 import { sections } from '@/config/content';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
 import { getPublicEnv } from '@/lib/env';
@@ -30,14 +30,13 @@ const ContactSection = () => {
       <MeshGradient />
       <Section
         id='contact'
-        className='py-12 md:py-20 max-w-4xl min-h-dvh flex flex-col justify-center items-center scroll-m-0 relative'
-        spacing='md'
+        className='max-w-4xl min-h-dvh flex flex-col justify-center items-center scroll-m-0 relative'
+        spacing='sm'
         reveal={false}
       >
-        <div className='w-full relative z-10 space-y-16'>
+        <div className={`relative z-10 w-full ${SECTION_STACK}`}>
           <Reveal>
             <SectionHeader
-              overline={sections.contact.overline}
               title={sections.contact.title}
               description={sections.contact.description}
               align='center'

@@ -152,7 +152,7 @@ const ProjectCaseStudy = ({ project }: ProjectCaseStudyProps) => {
               variant='primary'
               eventName={ANALYTICS_EVENTS.PORTFOLIO_PROJECT_LINK_CLICK}
               eventProperties={{ link_type: 'live', project_slug: slug }}
-              className='w-full sm:w-auto font-semibold shadow-glow-md hover:shadow-glow-lg'
+              className='w-full sm:w-auto font-semibold shadow-lift-md hover:shadow-lift-lg'
             />
             {githubUrl && (
               <ButtonLink

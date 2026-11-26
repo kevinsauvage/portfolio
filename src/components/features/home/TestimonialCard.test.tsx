@@ -8,8 +8,6 @@ const props = {
   content: 'The full recommendation text.',
   date: 'September 2025',
   excerpt: 'Short excerpt.',
-  index: 0,
-  totalCount: 3,
 };
 
 describe('TestimonialCard', () => {
@@ -37,10 +35,9 @@ describe('TestimonialCard', () => {
     expect(quote()).not.toHaveClass('line-clamp-6');
   });
 
-  it('shows the position out of the total and a valid machine-readable date', () => {
+  it('shows a valid machine-readable date', () => {
     const { container } = render(<TestimonialCard {...props} />);
 
-    expect(screen.getByText('01 / 03')).toBeInTheDocument();
     expect(container.querySelector('time')).toHaveAttribute('datetime', '2025-09');
   });
 

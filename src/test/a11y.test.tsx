@@ -2,7 +2,7 @@ import AboutSection from '@/components/features/home/AboutSection';
 import CareerSection from '@/components/features/home/CareerSection';
 import CertificationsSection from '@/components/features/home/CertificationsSection';
 import FaqSection from '@/components/features/home/FaqSection';
-import HeroStats from '@/components/features/home/HeroStats';
+import HeroContact from '@/components/features/home/HeroContact';
 import PortfolioSection from '@/components/features/home/PortfolioSection';
 import TestimonialsCarousel from '@/components/features/home/TestimonialsCarousel';
 import TestimonialsSection from '@/components/features/home/TestimonialsSection';
@@ -63,7 +63,7 @@ describe('accessibility (axe)', () => {
     await expectNoViolations(<TestimonialsSection />);
   });
 
-  it('Hero stats have no violations', async () => {
-    await expectNoViolations(<HeroStats />);
+  it('Hero contact links have no violations', async () => {
+    await expectNoViolations(<HeroContact />);
   });
 });

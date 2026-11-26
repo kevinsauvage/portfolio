@@ -299,29 +299,32 @@ const ContactForm = ({ reCaptchaKey }: ContactFormProps) => {
       )}
 
       <div className='flex flex-col-reverse gap-4 border-t border-zinc-800/70 pt-5 sm:flex-row sm:items-center sm:justify-between'>
-        <p className='text-xs leading-relaxed text-zinc-400 sm:max-w-sm'>
-          This site is protected by reCAPTCHA and the Google{' '}
-          <a
-            href='https://policies.google.com/privacy'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-zinc-400 underline underline-offset-2 transition-colors hover:text-zinc-200'
-          >
-            Privacy Policy
-            <NewTabHint />
-          </a>{' '}
-          and{' '}
-          <a
-            href='https://policies.google.com/terms'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-zinc-400 underline underline-offset-2 transition-colors hover:text-zinc-200'
-          >
-            Terms of Service
-            <NewTabHint />
-          </a>{' '}
-          apply.
-        </p>
+        <div className='space-y-1.5 sm:max-w-sm'>
+          <p className='text-sm font-medium text-zinc-100'>{copy.replyPromise}</p>
+          <p className='text-xs leading-relaxed text-zinc-400'>
+            This site is protected by reCAPTCHA and the Google{' '}
+            <a
+              href='https://policies.google.com/privacy'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-zinc-400 underline underline-offset-2 transition-colors hover:text-zinc-200'
+            >
+              Privacy Policy
+              <NewTabHint />
+            </a>{' '}
+            and{' '}
+            <a
+              href='https://policies.google.com/terms'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-zinc-400 underline underline-offset-2 transition-colors hover:text-zinc-200'
+            >
+              Terms of Service
+              <NewTabHint />
+            </a>{' '}
+            apply.
+          </p>
+        </div>
 
         <Button
           className='w-full sm:w-auto'

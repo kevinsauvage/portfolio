@@ -5,7 +5,7 @@ const LABEL = 'aria-label';
 const NEXT = 'Next testimonial';
 
 test.describe('testimonials carousel', () => {
-  test('walks the slides with arrow keys from a control, including while animating', async ({
+  test('walks the slides with arrow keys from a control, including while scrolling', async ({
     page,
   }) => {
     await page.goto('/');
@@ -14,14 +14,15 @@ test.describe('testimonials carousel', () => {
     const carousel = page.getByRole('region', { name: 'Testimonials' });
     await carousel.scrollIntoViewIfNeeded();
 
-    const slide = carousel.locator(SLIDE);
+    const slides = carousel.locator(SLIDE);
+    const slide = carousel.locator(`${SLIDE}:not([inert])`);
     await expect(slide).toHaveAttribute(LABEL, /^Testimonial 1 of \d+$/);
 
     // The region is intentionally not a tab stop: arrow keys are handled from
     // the controls inside it (keydown bubbles up to the region).
     expect(await carousel.getAttribute('tabindex')).toBeNull();
 
-    const total = Number((await slide.getAttribute(LABEL))?.match(/of (\d+)/)?.[1]);
+    const total = await slides.count();
     expect(total).toBeGreaterThan(1);
 
     const nextButton = page.getByRole('button', { name: NEXT });
@@ -30,7 +31,7 @@ test.describe('testimonials carousel', () => {
     await page.keyboard.press('ArrowRight');
     await expect(slide).toHaveAttribute(LABEL, `Testimonial 2 of ${total}`);
 
-    // The transition must not steal focus, otherwise the next press lands on
+    // The scroll must not steal focus, otherwise the next press lands on
     // `<body>` and is never seen by the carousel.
     await expect(nextButton).toBeFocused();
 

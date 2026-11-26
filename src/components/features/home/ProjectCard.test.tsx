@@ -50,4 +50,21 @@ describe('ProjectCard', () => {
     expect(screen.getByText(project.title)).toBeInTheDocument();
     expect(screen.getByText(firstTechnology.name)).toBeInTheDocument();
   });
+
+  it('makes the title a link to the case study that stretches over the card', () => {
+    render(<ProjectCard project={project} index={0} />);
+
+    const titleLink = screen.getByRole('heading', { name: project.title }).querySelector('a');
+    expect(titleLink).toHaveAttribute('href', `/projects/${project.slug}`);
+    expect(titleLink?.className).toContain('after:absolute');
+  });
+
+  it('caps the visible technology tags and counts the rest', () => {
+    const technologies = Array.from({ length: 8 }, (_, index) => ({ name: `Tech ${index}` }));
+    render(<ProjectCard project={{ ...project, technologies }} index={0} />);
+
+    expect(screen.getByText('Tech 4')).toBeInTheDocument();
+    expect(screen.queryByText('Tech 5')).not.toBeInTheDocument();
+    expect(screen.getByText(/\+3/)).toBeInTheDocument();
+  });
 });

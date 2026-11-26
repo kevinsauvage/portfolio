@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader, CardIcon } from '@/components/ui/Card';
-import { NumberBadge } from '@/components/ui/NumberBadge';
 import { Tag } from '@/components/ui/Tag';
-import { BodySmall, Caption, H3 } from '@/components/ui/Typography';
+import { Caption, H3 } from '@/components/ui/Typography';
 
-import { Briefcase, Calendar, TrendingUp } from 'lucide-react';
+import CareerDisclosure from './CareerDisclosure';
+import CareerHighlights, { HighlightItems } from './CareerHighlights';
+
+import clsx from 'clsx';
 
 type CareerCardProps = {
   company: string;
@@ -12,48 +13,36 @@ type CareerCardProps = {
   position: string;
   skills: string[];
   index: number;
+  /** Older roles fold into a disclosure so the timeline stays short. */
+  collapsed?: boolean;
 };
 
-const SkillsTags = ({ skills }: { skills: string[] }) => {
-  return (
-    <div className='flex flex-wrap gap-1.5 pt-2'>
-      {skills.map(skill => (
-        <Tag key={skill}>{skill}</Tag>
-      ))}
-    </div>
-  );
-};
-
-const Highlights = ({ items }: { items: string[] }) => (
-  <ul className='flex-1 space-y-2 list-none pl-0'>
-    {items.map(item => (
-      <li key={item} className='flex gap-3'>
-        <span className='mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-500' aria-hidden />
-        <BodySmall className='min-w-0 flex-1 text-zinc-200'>{item}</BodySmall>
-      </li>
+const SkillsTags = ({ skills }: { skills: string[] }) => (
+  <div className='flex flex-wrap gap-1.5'>
+    {skills.map(skill => (
+      <Tag key={skill}>{skill}</Tag>
     ))}
-  </ul>
+  </div>
 );
 
-const PositionAndPeriod = ({ position, period }: { position: string; period: string }) => {
-  return (
-    <div className='space-y-2'>
-      <div className='flex items-center gap-2'>
-        <TrendingUp
-          size={16}
-          className='text-primary-400 transition-transform group-hover:rotate-12 flex-shrink-0'
-          strokeWidth={1.5}
-          aria-hidden='true'
-        />
-        <Caption className='font-semibold text-zinc-50'>{position}</Caption>
-      </div>
-      <Caption className='flex items-center gap-1.5'>
-        <Calendar size={14} className='text-zinc-400' aria-hidden='true' />
-        <span>{period}</span>
-      </Caption>
-    </div>
-  );
-};
+const Heading = ({
+  company,
+  position,
+  period,
+  index,
+}: Pick<CareerCardProps, 'company' | 'position' | 'period' | 'index'>) => (
+  <div className='space-y-1'>
+    <Caption className='font-mono tracking-wide text-zinc-400'>{period}</Caption>
+    <H3
+      id={`career-${index}`}
+      size='sm'
+      className='transition-colors group-hover/job:text-primary-400'
+    >
+      {company}
+    </H3>
+    <Caption className='font-semibold text-zinc-100'>{position}</Caption>
+  </div>
+);
 
 const CareerCard: React.FC<CareerCardProps> = ({
   company,
@@ -62,41 +51,38 @@ const CareerCard: React.FC<CareerCardProps> = ({
   position,
   skills,
   index,
+  collapsed = false,
 }) => {
+  const isCurrent = index === 0;
+
   return (
-    <Card
-      hover='subtle'
-      size='md'
-      glow='primary-secondary'
-      aria-labelledby={`career-${index}`}
-      className='group relative h-full'
-    >
-      <CardContent spacing='lg' className='h-full flex flex-col'>
-        <CardHeader withBorder>
-          <CardIcon variant='blue'>
-            <Briefcase
-              size={20}
-              className='text-secondary-400 transition-transform group-hover:rotate-12'
-              strokeWidth={1.5}
-              aria-hidden='true'
-            />
-          </CardIcon>
-          <div className='flex-1'>
-            <H3
-              id={`career-${index}`}
-              size='sm'
-              className='transition-colors group-hover:text-primary-400'
-            >
-              {company}
-            </H3>
-          </div>
-          <NumberBadge number={index + 1} />
-        </CardHeader>
-        <PositionAndPeriod position={position} period={period} />
-        <Highlights items={highlights} />
-        <SkillsTags skills={skills} />
-      </CardContent>
-    </Card>
+    <article aria-labelledby={`career-${index}`} className='group/job relative pl-8 md:pl-12'>
+      <span
+        aria-hidden='true'
+        className={clsx(
+          'absolute left-0 top-1.5 size-3.5 rounded-full border-2 transition-colors',
+          isCurrent
+            ? 'border-primary-400 bg-primary-400 ring-4 ring-primary-400/15'
+            : 'border-zinc-600 bg-zinc-950 group-hover/job:border-primary-400'
+        )}
+      />
+
+      {collapsed ? (
+        <CareerDisclosure
+          company={company}
+          heading={<Heading company={company} position={position} period={period} index={index} />}
+        >
+          <HighlightItems items={highlights} />
+          <SkillsTags skills={skills} />
+        </CareerDisclosure>
+      ) : (
+        <div className='space-y-4'>
+          <Heading company={company} position={position} period={period} index={index} />
+          <CareerHighlights items={highlights} />
+          <SkillsTags skills={skills} />
+        </div>
+      )}
+    </article>
   );
 };
 

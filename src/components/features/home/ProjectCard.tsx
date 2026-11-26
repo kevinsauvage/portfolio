@@ -1,7 +1,8 @@
+import Link from 'next/link';
+
 import { GitHubIcon } from '@/components/shared/BrandIcons';
 import ButtonLink from '@/components/ui/Button/ButtonLink';
 import { Card, CardContent, CardImage } from '@/components/ui/Card';
-import { NumberBadge } from '@/components/ui/NumberBadge';
 import { Tag } from '@/components/ui/Tag';
 import { BodySmall, H3 } from '@/components/ui/Typography';
 import { sections } from '@/config/content';
@@ -59,7 +60,7 @@ const ProjectActionButtons = ({
         variant='primary'
         eventName={ANALYTICS_EVENTS.PORTFOLIO_PROJECT_LINK_CLICK}
         eventProperties={{ link_type: 'case_study', project_slug: slug }}
-        className='shadow-glow-sm hover:shadow-glow-md'
+        className='shadow-lift-sm hover:shadow-lift-md'
       />
       <ButtonLink
         href={websiteLink}
@@ -101,21 +102,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         className='pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-500/60 to-transparent'
       />
       <CardContent spacing='md' className='relative z-10 h-full'>
-        <div className='flex items-center gap-3'>
-          <NumberBadge number={index + 1} />
-          {meta && (
-            <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>
-              {meta}
-            </p>
-          )}
-        </div>
+        {meta && (
+          <p className='font-mono text-xs uppercase tracking-[0.18em] text-secondary-300'>{meta}</p>
+        )}
 
         <H3
           id={`project-title-${index}`}
           size='sm'
           className='transition-colors duration-300 group-hover:text-primary-400'
         >
-          {title}
+          <Link
+            href={`/projects/${slug}`}
+            data-analytics-event={ANALYTICS_EVENTS.PORTFOLIO_PROJECT_LINK_CLICK}
+            data-analytics-link-type='card'
+            data-analytics-project-slug={slug}
+            className="focus-visible:outline-none after:absolute after:inset-0 after:rounded-xl after:content-[''] focus-visible:after:ring-2 focus-visible:after:ring-primary-400"
+          >
+            {title}
+          </Link>
         </H3>
 
         <CardImage
@@ -125,12 +129,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           width={1200}
           height={750}
           sizes='(max-width: 1024px) 100vw, 900px'
-          className='md:aspect-[2.4/1]'
+          className='pointer-events-none md:aspect-[2.4/1]'
         />
 
-        <BodySmall className='text-zinc-200'>{description}</BodySmall>
+        <BodySmall className='max-w-[60ch] text-zinc-200'>{description}</BodySmall>
 
-        <TechStackTags technologies={technologies} limit={8} />
+        <TechStackTags technologies={technologies} limit={5} />
 
         <ProjectActionButtons slug={slug} websiteLink={websiteLink} githubUrl={githubUrl} />
       </CardContent>

@@ -17,6 +17,9 @@ const SPACING_CLASSES = {
   xl: 'py-32 md:py-48',
 } as const;
 
+/** Gap between a section's header and its body, and the same rhythm everywhere. */
+export const SECTION_STACK = 'space-y-12 md:space-y-16';
+
 const Section: React.FC<SectionProperties> = ({
   children,
   className,

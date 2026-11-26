@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section, { SECTION_STACK } from './Section';
 import SectionHeader from './SectionHeader';
 
 import { render, screen } from '@testing-library/react';
@@ -31,6 +31,12 @@ describe('Section', () => {
     render(<Section data-testid='reveal'>Body</Section>);
 
     expect(screen.getByTestId('reveal').querySelector('.reveal')).not.toBeNull();
+  });
+});
+
+describe('SECTION_STACK', () => {
+  it('is the one header-to-body gap shared by every home section', () => {
+    expect(SECTION_STACK).toBe('space-y-12 md:space-y-16');
   });
 });
 

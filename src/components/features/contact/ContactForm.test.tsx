@@ -67,6 +67,12 @@ const clearGrecaptcha = () => {
 };
 
 describe('ContactForm', () => {
+  it('promises a reply time next to the submit button', () => {
+    render(<ContactForm reCaptchaKey='test-key' />);
+
+    expect(screen.getByText(/I reply within 24 hours/i)).toBeInTheDocument();
+  });
+
   beforeEach(() => {
     vi.clearAllMocks();
     setGrecaptcha('captcha-token');

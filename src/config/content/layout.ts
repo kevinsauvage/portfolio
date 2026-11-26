@@ -3,9 +3,9 @@ import { PERSON_NAME } from '@/config/site';
 const navigationItems = [
   { href: '/#home', label: 'Home' },
   { href: '/#about', label: 'About' },
+  { href: '/#portfolio', label: 'Portfolio' },
   { href: '/#career', label: 'Career' },
   { href: '/#testimonials', label: 'Testimonials' },
-  { href: '/#portfolio', label: 'Portfolio' },
   { href: '/#certifications', label: 'Certifications' },
   { href: '/#contact', label: 'Contact' },
 ] as const;
@@ -45,27 +45,6 @@ export const layout = {
         links: [
           ...navigationItems.map(({ href, label }) => ({ href, name: label })),
           { name: 'Privacy', href: '/privacy' },
-        ],
-      },
-      techStack: {
-        title: 'Tech Stack',
-        skills: [
-          'React',
-          'Next.js',
-          'Svelte',
-          'TypeScript',
-          'Tailwind CSS',
-          'GraphQL',
-          'Shopify',
-          'Testing Library',
-          'Jest',
-          'Cypress',
-          'axe',
-          'GitHub Actions',
-          'Sentry',
-          'WCAG 2.2',
-          'Storybook',
-          'Figma',
         ],
       },
       availability: {

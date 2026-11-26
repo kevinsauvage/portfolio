@@ -23,7 +23,7 @@ type CardIconProps = {
 export const CardIcon = ({ children, className, variant = 'primary' }: CardIconProps) => (
   <div
     className={clsx(
-      'inline-flex p-3 rounded-xl transition-shadow duration-200 shadow-glow-sm group-hover:shadow-glow-md',
+      'inline-flex p-3 rounded-xl transition-shadow duration-200 shadow-lift-sm group-hover:shadow-lift-md',
       // eslint-disable-next-line security/detect-object-injection -- keyed by a typed union
       VARIANT_CLASSES[variant],
       className

@@ -6,7 +6,7 @@ import { BodySmall, H3, H4 } from '@/components/ui/Typography';
 import { layout, siteMap } from '@/config/content';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
 
-import { Briefcase, CheckCircle2, Code2, Mail, MapPin } from 'lucide-react';
+import { Briefcase, CheckCircle2, Mail, MapPin } from 'lucide-react';
 
 const LEGAL_LINK_CLASSES =
   'inline-flex min-h-11 items-center text-zinc-300 underline-offset-4 transition-colors hover:text-primary-400 hover:underline';
@@ -15,14 +15,14 @@ const Footer: React.FC = () => {
   return (
     <footer className='border-t border-zinc-800 bg-zinc-950/50' aria-label='Site footer'>
       <div className='container m-auto px-6 py-12'>
-        <div className='mb-10 text-center md:text-left'>
-          <H3 as='h2' className='mb-2'>
-            {layout.footer.name}
-          </H3>
-          <BodySmall className='max-w-sm'>{layout.footer.tagline}</BodySmall>
-        </div>
+        <div className='mb-8 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8'>
+          <div className='text-center md:text-left'>
+            <H3 as='h2' className='mb-2'>
+              {layout.footer.name}
+            </H3>
+            <BodySmall className='mx-auto max-w-[14rem] md:mx-0'>{layout.footer.tagline}</BodySmall>
+          </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8'>
           <nav aria-label='Footer navigation'>
             <H4 as='h3' className='mb-4'>
               {layout.footer.sections.quickLinks.title}
@@ -43,27 +43,6 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </nav>
-
-          <div>
-            <H4 as='h3' className='mb-4 flex items-center gap-2'>
-              <Code2
-                size={20}
-
-                aria-hidden='true'
-              />
-              {layout.footer.sections.techStack.title}
-            </H4>
-            <div className='flex flex-wrap gap-2 max-w-52'>
-              {layout.footer.sections.techStack.skills.map(skill => (
-                <span
-                  key={skill}
-                  className='px-3 py-1 bg-zinc-800/50 text-xs rounded-full border border-zinc-700 text-zinc-300'
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
 
           <div>
             <H4 as='h3' className='mb-4 flex items-center gap-2'>

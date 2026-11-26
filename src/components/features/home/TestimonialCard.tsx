@@ -2,23 +2,17 @@
 
 import { useState } from 'react';
 
-import { Card, CardContent, CardFooter, CardIcon } from '@/components/ui/Card';
 import { NEW_TAB_LABEL } from '@/components/ui/NewTabHint';
-import { BodySmall, Caption } from '@/components/ui/Typography';
 import { sections } from '@/config/content/sections';
 import type { Testimonial } from '@/config/content/testimonials';
 import { LINKEDIN_URL } from '@/config/site';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
 import { toDateTime } from '@/lib/utils/date';
-import { padIndex } from '@/lib/utils/format';
 
 import clsx from 'clsx';
-import { Briefcase, Calendar, ChevronDown, ExternalLink, Quote } from 'lucide-react';
+import { Calendar, ChevronDown, ExternalLink, Quote } from 'lucide-react';
 
-type TestimonialCardProps = Pick<Testimonial, 'author' | 'content' | 'excerpt' | 'date'> & {
-  index: number;
-  totalCount: number;
-};
+type TestimonialCardProps = Pick<Testimonial, 'author' | 'content' | 'excerpt' | 'date'>;
 
 const getInitials = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -27,8 +21,8 @@ const getInitials = (name: string) => {
   return `${first}${last}`.toUpperCase();
 };
 
-const ICON_HOVER = 'transition-transform group-hover:rotate-12 duration-200';
-const META_ITEM = 'flex items-center gap-1.5 md:gap-2';
+const CHIP =
+  'inline-flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-xs text-zinc-300';
 
 const TestimonialContent = ({
   authorName,
@@ -42,27 +36,27 @@ const TestimonialContent = ({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className='flex-1 space-y-3'>
+    <div className='space-y-4'>
       <blockquote
         className={clsx(
-          'leading-relaxed italic text-zinc-200 text-sm md:text-base lg:text-lg mb-4 md:mb-8',
+          'text-lg font-medium leading-relaxed text-zinc-100 md:text-xl lg:text-2xl lg:leading-snug',
           // The clamp only previews the excerpt: once expanded it would keep
           // cutting the full text off at six lines (and at 200% text size).
           !expanded && 'line-clamp-6'
         )}
       >
-        &quot;{expanded ? content : excerpt}&quot;
+        &ldquo;{expanded ? content : excerpt}&rdquo;
       </blockquote>
-      <div className='flex flex-wrap items-center gap-x-4 gap-y-2'>
+      <div className='flex flex-wrap items-center gap-x-5 gap-y-1'>
         <button
           type='button'
           onClick={() => setExpanded(previous => !previous)}
           aria-expanded={expanded}
-          className='inline-flex min-h-11 items-center gap-1 text-xs font-medium text-zinc-300 hover:text-zinc-100 transition-colors duration-200 underline-offset-4 hover:underline'
+          className='inline-flex min-h-11 items-center gap-1 text-sm font-medium text-zinc-300 transition-colors duration-200 hover:text-zinc-50'
         >
           {expanded ? sections.testimonials.showLess : sections.testimonials.readMore}
           <ChevronDown
-            size={14}
+            size={16}
             aria-hidden='true'
             className={clsx('transition-transform duration-200', expanded && 'rotate-180')}
           />
@@ -71,12 +65,12 @@ const TestimonialContent = ({
           href={LINKEDIN_URL}
           target='_blank'
           rel='noopener noreferrer'
-          className='inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-primary-400 hover:text-primary-300 transition-colors duration-200 underline-offset-4 hover:underline'
+          className='inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-primary-300 underline-offset-4 transition-colors duration-200 hover:text-primary-200 hover:underline'
           data-analytics-event={ANALYTICS_EVENTS.TESTIMONIAL_LINKEDIN_CLICK}
           aria-label={`Via LinkedIn — read ${authorName}'s full recommendation (${NEW_TAB_LABEL})`}
         >
           Via LinkedIn
-          <ExternalLink size={12} aria-hidden='true' />
+          <ExternalLink size={14} aria-hidden='true' />
         </a>
       </div>
     </div>
@@ -84,78 +78,43 @@ const TestimonialContent = ({
 };
 
 const TestimonialAuthor = ({ author, date }: Pick<Testimonial, 'author' | 'date'>) => (
-  <CardFooter>
-    <div className='space-y-4'>
-      <div className='flex items-center gap-2'>
-        <div
-          className='bg-primary-500/10 rounded-full border border-primary-500/20 group-hover:border-primary-500/40 transition-colors flex items-center justify-center p-2 md:p-3'
-          aria-hidden='true'
-        >
-          <span className='font-mono text-xs md:text-sm font-semibold text-primary-300 whitespace-nowrap'>
-            {getInitials(author.name)}
-          </span>
-        </div>
-        <div>
-          <cite className='font-bold not-italic block text-zinc-50 text-base md:text-lg lg:text-xl mb-0.5 md:mb-1'>
-            {author.name}
-          </cite>
-          <BodySmall className='text-sm md:text-base lg:text-lg'>{author.title}</BodySmall>
-        </div>
-      </div>
-
-      <div className='gap-2 flex flex-wrap text-zinc-400 text-xs md:text-sm lg:text-base'>
-        <Caption className={META_ITEM}>
-          <Briefcase
-            size={12}
-            className={clsx(ICON_HOVER, 'md:w-3.5 md:h-3.5')}
-            aria-hidden='true'
-          />
-          <span>{author.company}</span>
-        </Caption>
-        <Caption className={META_ITEM}>
-          <span className='bg-zinc-600 rounded-full w-1 h-1 md:w-1.5 md:h-1.5' aria-hidden='true' />
-          <span>{author.relationship}</span>
-        </Caption>
-        <Caption className={META_ITEM}>
-          <Calendar
-            size={12}
-            className={clsx(ICON_HOVER, 'md:w-3.5 md:h-3.5')}
-            aria-hidden='true'
-          />
-          <time dateTime={toDateTime(date)}>{date}</time>
-        </Caption>
-      </div>
+  <div className='flex flex-wrap items-center gap-x-4 gap-y-3 border-t border-zinc-800/70 pt-6'>
+    <span
+      aria-hidden='true'
+      className='flex size-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-500/30 to-secondary-500/30 font-mono text-sm font-semibold text-zinc-50 ring-1 ring-zinc-700'
+    >
+      {getInitials(author.name)}
+    </span>
+    <div className='min-w-0 flex-1'>
+      <cite className='block text-base font-semibold not-italic text-zinc-50 md:text-lg'>
+        {author.name}
+      </cite>
+      <p className='text-sm text-zinc-400'>
+        {author.title} · {author.company}
+      </p>
     </div>
-  </CardFooter>
+    <div className='flex flex-wrap gap-2'>
+      <span className={CHIP}>{author.relationship}</span>
+      <span className={CHIP}>
+        <Calendar size={12} aria-hidden='true' />
+        <time dateTime={toDateTime(date)}>{date}</time>
+      </span>
+    </div>
+  </div>
 );
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({
-  author,
-  content,
-  excerpt,
-  date,
-  index,
-  totalCount,
-}) => (
-  <Card hover='standard' size='md' glow='secondary-accent' animationIndex={index} className='h-fit'>
-    <CardContent spacing='md' className='md:space-y-6'>
-      <div className='flex items-start justify-between mb-4 md:mb-6'>
-        <CardIcon variant='purple'>
-          <Quote
-            className={clsx('text-primary-400', ICON_HOVER, 'w-5 h-5 md:w-6 md:h-6')}
-            size={20}
-            strokeWidth={1.5}
-            aria-hidden='true'
-          />
-        </CardIcon>
-        <Caption className='text-secondary-400 text-xs md:text-sm font-semibold'>
-          {padIndex(index + 1)} / {padIndex(totalCount)}
-        </Caption>
-      </div>
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ author, content, excerpt, date }) => (
+  <div className='relative flex h-full flex-col justify-between gap-8 overflow-hidden rounded-xl border border-zinc-800/80 bg-gradient-to-b from-zinc-900/50 to-zinc-950/80 p-6 ring-1 ring-inset ring-white/[0.04] sm:p-7 md:p-8'>
+    <Quote
+      aria-hidden='true'
+      strokeWidth={1.25}
+      className='pointer-events-none absolute -right-2 -top-2 size-24 text-primary-500/10 md:size-36'
+    />
+    <div className='relative'>
       <TestimonialContent authorName={author.name} content={content} excerpt={excerpt} />
-      <TestimonialAuthor author={author} date={date} />
-    </CardContent>
-  </Card>
+    </div>
+    <TestimonialAuthor author={author} date={date} />
+  </div>
 );
 
 export default TestimonialCard;

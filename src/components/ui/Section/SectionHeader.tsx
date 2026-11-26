@@ -31,9 +31,7 @@ const SectionHeader = ({
         </div>
       )}
 
-      <H2 gradient={gradient} className='text-4xl md:text-5xl lg:text-6xl'>
-        {title}
-      </H2>
+      <H2 gradient={gradient}>{title}</H2>
 
       {description && (
         <Body className={clsx('max-w-4xl', isCentered && 'mx-auto')}>{description}</Body>

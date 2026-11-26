@@ -53,10 +53,10 @@
   /* Always-visible backgrounds: one pass that ends within 5s (RGAA 13.8). */
   --animate-mesh-once: meshGradient 5s ease-in-out 1;
 
-  /* Box Shadows — terminal glow */
-  --shadow-glow-sm: 0 0 10px rgba(34, 197, 94, 0.35);
-  --shadow-glow-md: 0 0 20px rgba(34, 197, 94, 0.35);
-  --shadow-glow-lg: 0 0 35px rgba(34, 197, 94, 0.4);
+  /* Box Shadows — neutral elevation (offset + soft blur, no colored halo) */
+  --shadow-lift-sm: 0 2px 6px -1px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-lift-md: 0 6px 16px -4px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-lift-lg: 0 14px 32px -8px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Scroll reveal (paired with <Reveal/>; no-JS and reduced-motion safe) */
@@ -75,7 +75,7 @@
   will-change: auto;
 }
 
-/* Mount-time fade/slide for elements that are on screen at load (hero stats) or
+/* Mount-time fade/slide for elements that are on screen at load (hero contact links) or
    shown/re-created on demand (mobile-menu items, the testimonial card per slide).
    Uses `animation` (not `transition`) so it always ends visible and never fights
    the hover-lift transform. Card grids use <Reveal> instead — see PortfolioSection. */
