@@ -13,7 +13,7 @@ export const sections = {
       secondLine: 'Web Accessibility & Performance',
     },
     description:
-      'I build React and Next.js apps at Keolis, remotely from Barcelona, with a focus on accessibility. Before that I spent almost four years at Decathlon, building storefronts with Svelte.',
+      'I build React and Next.js apps at Keolis, remotely from Barcelona, with a focus on accessibility and performance. Before that I spent almost four years at Decathlon, building storefronts with Svelte.',
     primaryCta: 'See my experience',
   },
   about: {

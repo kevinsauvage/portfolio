@@ -24,7 +24,7 @@ export const personSchema = {
   url: SITE_URL,
   description: 'Frontend developer in Barcelona.',
   about:
-    'Frontend engineer with 5+ years building web products used by millions across 15+ countries, focused on accessibility, performance and shared component libraries.',
+    'Frontend engineer with 5+ years building web products used by millions across 15+ countries, focused on accessibility, performance.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'ES',
