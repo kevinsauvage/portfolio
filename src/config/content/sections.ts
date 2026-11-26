@@ -143,9 +143,6 @@ export const sections = {
   },
   certifications: {
     title: 'Learning',
-    description:
-      'What I am learning at the moment, my English certificate and a few earlier courses.',
-    button: 'View Credential',
-    earlierTitle: 'Earlier courses',
+    description: 'What I am learning at the moment, plus my certificates and a few courses.',
   },
 } as const;

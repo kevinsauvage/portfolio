@@ -1,20 +1,10 @@
-type Certification = {
+export type Certification = {
   id: string;
   title: string;
   issuer: string;
   date: string;
-  description: string;
+  description?: string;
   credentialUrl?: string;
-  skills: string[];
-  featured?: boolean;
-};
-
-export type EarlierCredential = {
-  id: string;
-  title: string;
-  issuer: string;
-  date: string;
-  credentialUrl: string;
 };
 
 export const certifications: Certification[] = [
@@ -25,7 +15,6 @@ export const certifications: Certification[] = [
     date: '2026',
     description:
       'Learning more about WCAG 2.2, ARIA authoring practices and screen reader testing, and using it in my work at Keolis.',
-    skills: ['WCAG 2.2', 'ARIA', 'Screen Readers'],
   },
   {
     id: 'now-learning-ai-engineering-2026',
@@ -34,7 +23,6 @@ export const certifications: Certification[] = [
     date: '2026',
     description:
       'Learning how LLMs work and how to build with them: prompting, tool use, retrieval and agents, with small projects to practise.',
-    skills: ['LLMs', 'AI Engineering', 'Prompting'],
   },
   {
     id: 'ef-set-c1-english-certificate-2024',
@@ -44,12 +32,7 @@ export const certifications: Certification[] = [
     description:
       'Official C1 Advanced English certification for professional communication in international environments.',
     credentialUrl: 'https://cert.efset.org/W8vpXL',
-    skills: ['C1 Advanced English', 'International Collaboration'],
-    featured: true,
   },
-];
-
-export const earlierCredentials: EarlierCredential[] = [
   {
     id: 'linkedin-react-using-typescript-2023',
     title: 'React: Using TypeScript',

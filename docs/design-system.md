@@ -100,8 +100,10 @@ Type components (`src/components/ui/Typography`):
   scrolls into view rather than at page load. `Card`'s `animationIndex` (`card-enter`) remains for
   elements that are not part of a scroll-triggered grid: the hero contact links, the mobile-menu items and
   the testimonial card (which remounts per slide).
-- Grid placement for a wrapped card lives on the `<Reveal>` wrapper (e.g. the featured
-  certification's `lg:col-span-2`), because the wrapper is the grid item.
+- Grid placement for a wrapped card lives on the `<Reveal>` wrapper, because the wrapper is the grid
+  item.
+- Credentials are a plain ruled list (`CertificationRow`), not cards: title (linked when there is a
+  credential), optional description, issuer and date.
 - `prefers-reduced-motion: reduce` globally collapses durations to `0.01ms` and disables
   `card-enter`/`reveal` animations (`globals.css`).
 - Nothing loops past 5s without user action (RGAA 13.8 / WCAG 2.2.2): always-visible
