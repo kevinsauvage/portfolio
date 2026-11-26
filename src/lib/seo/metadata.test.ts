@@ -25,4 +25,12 @@ describe('buildRootMetadata', () => {
     expect(metadata.openGraph?.url).toBe(BASE_URL);
     expect(metadata.title).toMatchObject({ default: expect.any(String) });
   });
+
+  it('declares a 48px-multiple favicon so Google can pick it up', async () => {
+    vi.stubEnv('NEXT_PUBLIC_RECAPTCHA_SITE_KEY', 'site-key');
+    const buildRootMetadata = await load();
+    const icons = buildRootMetadata(BASE_URL).icons as { icon: Array<{ sizes: string }> };
+
+    expect(icons.icon.map(({ sizes }) => sizes)).toEqual(expect.arrayContaining(['48x48']));
+  });
 });

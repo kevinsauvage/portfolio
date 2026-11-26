@@ -4,6 +4,16 @@ import { PERSON_NAME } from '@/config/site';
 import { getPublicEnv } from '@/lib/env';
 import { SEARCH_TITLE, SITE_DESCRIPTION, SITE_KEYWORDS } from '@/lib/seo/schemas';
 
+/** 48px multiples are what Google Search accepts as the site icon. */
+const ICONS: Metadata['icons'] = {
+  apple: { sizes: '180x180', url: '/apple-touch-icon.png' },
+  icon: [
+    { sizes: '48x48', type: 'image/png', url: '/favicon-48x48.png' },
+    { sizes: '192x192', type: 'image/png', url: '/android-chrome-192x192.png' },
+    { sizes: 'any', type: 'image/x-icon', url: '/favicon.ico' },
+  ],
+};
+
 export function buildRootMetadata(baseUrl: string): Metadata {
   return {
     alternates: {
@@ -13,6 +23,7 @@ export function buildRootMetadata(baseUrl: string): Metadata {
     category: 'Technology',
     creator: PERSON_NAME,
     description: SITE_DESCRIPTION,
+    icons: ICONS,
     keywords: SITE_KEYWORDS,
     metadataBase: new URL(baseUrl),
     openGraph: {

@@ -18,7 +18,7 @@ export const ANALYTICS_EVENTS = {
   /** Hero primary → #portfolio. Extra props: location */
   CTA_PORTFOLIO_CLICK: 'cta_portfolio_click',
 
-  /** Project card outbound links. Extra props: link_type (live | github), project_slug */
+  /** Project card outbound links. Extra props: link_type (card | case_study | live | github), project_slug */
   PORTFOLIO_PROJECT_LINK_CLICK: 'portfolio_project_link_click',
 
   /** Social profile links. Extra props: location, network */

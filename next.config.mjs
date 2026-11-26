@@ -50,6 +50,11 @@ const nextConfig = {
         ],
         source: '/(.*)',
       },
+      {
+        // PDFs carry personal contact details: keep them out of search results.
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+        source: '/(.*)\\.pdf',
+      },
     ];
   },
   images: {
