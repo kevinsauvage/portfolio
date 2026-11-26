@@ -17,21 +17,13 @@ type Properties = {
 };
 
 /**
- * Loads the analytics scripts only once the visitor has granted analytics or
- * advertising consent, and re-asserts the stored choice on `gtag` first so
- * they start with the right signals rather than the denied defaults.
+ * Loads both scripts only after a consent grant, re-asserting the stored choice
+ * on `gtag` first so they start granted instead of on the denied defaults.
  *
- * The Google tag is loaded here rather than by the container's `Google Tag`
- * tag: that path pulls gtag.js with `cx=c` and never issues the GA4
- * configuration, so GA4 received nothing at all (no `/g/collect`, no `_ga`,
- * Realtime stuck at zero). This is the documented install and it honours
- * Consent Mode (`gcs=G111` on the hit once analytics storage is granted).
- *
- * The container still loads, and owns the GA4 event tags that forward the
- * `dataLayer` events this site pushes — gtag.js alone does not forward those.
- *
- * `lazyOnload` on purpose: together they are ~900 KB and a long main-thread
- * task. Requests are only made after consent is granted.
+ * The Google tag is loaded here, not by the container's `Google Tag` tag: that
+ * path pulls gtag.js with `cx=c` and never issues the GA4 configuration, so GA4
+ * gets no hits. The container still owns the GA4 event tags that forward our
+ * `dataLayer` events. `lazyOnload`: ~900 KB, only ever fetched post-consent.
  */
 const GoogleTagManager = ({ ga4MeasurementId, gtmId }: Properties) => {
   const measurementId = normalizeMeasurementId(ga4MeasurementId);

@@ -10,7 +10,6 @@
  */
 
 export type PrivacyList = {
-  /** Optional lead-in sentence rendered above the list. */
   intro?: string;
   items: string[];
 };
@@ -18,24 +17,21 @@ export type PrivacyList = {
 export type PrivacySection = {
   /** Anchor id, also used by the table of contents. */
   id: string;
-  /** Numbered heading, e.g. `4. Cookies and similar storage`. */
   title: string;
-  /** Heading without its number, for the table of contents. */
+  /** The same heading without its number, for the table of contents. */
   shortTitle: string;
   paragraphs?: string[];
   lists?: PrivacyList[];
-  /** Renders the cookie category table built from `cookies.ts`. */
+  /** Built from `cookies.ts`, like the banner. */
   cookieTable?: boolean;
-  /** Renders the “Cookie settings” button that reopens the consent banner. */
+  /** The “Cookie settings” button that reopens the banner. */
   cookieSettings?: boolean;
-  /** Renders the controller's email address. */
   contact?: boolean;
 };
 
 export type PrivacyConfig = {
   overline: string;
   title: string;
-  /** Meta description for the route's `<head>`. */
   description: string;
   /** Machine-readable date for `<time dateTime>`; display copy is separate. */
   lastUpdated: string;

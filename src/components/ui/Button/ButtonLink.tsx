@@ -9,9 +9,8 @@ type ButtonLinkProps = {
   label: string;
   svg?: React.ReactNode;
   variant?: ButtonVariant;
-  /** Analytics event name; sent by the delegated listener in `AnalyticsTracker`. */
+  /** Sent by the delegated listener in `AnalyticsTracker`. */
   eventName?: AnalyticsEventName;
-  /** Extra event properties, emitted as `data-analytics-*` attributes. */
   eventProperties?: Record<string, string>;
   size?: ButtonSize;
 } & React.ComponentPropsWithoutRef<typeof Link>;

@@ -12,15 +12,10 @@ import { getPublicEnv } from '@/lib/env';
 import { Mail, MapPin } from 'lucide-react';
 
 /**
- * The form renders inline, and outside the scroll reveal, on purpose.
- *
- * `next/dynamic` made React stream it into a `<div hidden>`: the fields were
- * `display: none` — and absent from the accessibility tree — until hydration.
- * `Section`'s reveal then put them behind an `opacity: 0` ancestor until the
- * visitor scrolled past them. Either one makes the labels fail the "every field
- * has a visible label" check in a real browser, and both hide the form from
- * assistive tech at load. The decorative blocks below keep their entrance
- * animation; the form does not.
+ * The form renders inline and outside the scroll reveal on purpose: both
+ * `next/dynamic` and the reveal leave it `display: none` / `opacity: 0` until
+ * hydration or scroll, which drops its labels out of the accessibility tree and
+ * fails the visible-label check at load.
  */
 const ContactSection = () => {
   const recaptchaSiteKey = getPublicEnv().NEXT_PUBLIC_RECAPTCHA_SITE_KEY;

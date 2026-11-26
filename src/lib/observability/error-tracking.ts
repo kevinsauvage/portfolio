@@ -3,20 +3,12 @@ import { ANALYTICS_EVENTS } from '../analytics/events';
 
 import * as Sentry from '@sentry/nextjs';
 
-/**
- * Non-PII context allowed to travel with an error. Keep this to coarse
- * identifiers (codes, statuses, counts) — never form contents, emails,
- * names, message bodies, tokens, or raw provider payloads.
- */
+/** Coarse identifiers only (codes, statuses, counts) — never PII or provider payloads. */
 export type ErrorContext = Record<string, string | number | boolean | undefined>;
 
-/**
- * Reports an error to Sentry plus a coarse analytics event.
- *
- * The caller-supplied `code` is the only free-form string forwarded; the raw
- * error message is deliberately not sent to analytics, and `context` is
- * expected to be non-PII (it is attached to Sentry only).
- */
+// Only `code` reaches analytics; the error message and `context` stay in Sentry
+// on purpose.
+
 export function logError(error: Error, code: string, context?: ErrorContext): void {
   console.error('Error logged:', { code, message: error.message, stack: error.stack });
 

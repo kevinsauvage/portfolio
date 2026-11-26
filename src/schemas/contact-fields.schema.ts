@@ -2,14 +2,7 @@ import { CONTACT_FIELD_LIMITS } from './contact-fields';
 
 import { z } from 'zod';
 
-/**
- * The zod schema for the contact fields, shared by the server action and the
- * client form so both surfaces produce identical messages.
- *
- * Everything that does not need zod lives in `contact-fields.ts`, which the form
- * imports; this module is only loaded once validation actually runs, so zod
- * stays out of the initial bundle.
- */
+/** Loaded lazily so zod stays out of the initial bundle; see `contact-fields.ts`. */
 
 export const contactFieldsSchema = z.object({
   fullName: z

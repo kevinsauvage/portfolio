@@ -5,7 +5,6 @@ type JsonLdProperties = {
 /** `<` is escaped so content can never close the script element early. */
 const serialize = (value: object): string => JSON.stringify(value).replaceAll('<', '\\u003c');
 
-/** Renders one `application/ld+json` script per schema object. */
 const JsonLd = ({ data }: JsonLdProperties) => {
   return (
     <>

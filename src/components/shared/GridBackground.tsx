@@ -1,11 +1,8 @@
 import type { CSSProperties } from 'react';
 
 type GridBackgroundProps = {
-  /** Size of one grid cell in px. Defaults to 64. */
   cellSize?: number;
-  /** Opacity of the grid lines (0-1). Defaults to 0.05. */
   lineOpacity?: number;
-  /** Extra class names for positioning (parent must be relative). */
   className?: string;
 };
 

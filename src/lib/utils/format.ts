@@ -1,5 +1,2 @@
-/**
- * Zero-pads a 1-based index for display (`1` → `"01"`), matching the numbered
- * badges, FAQ rows and carousel counters.
- */
+// `1` → `"01"`, as the numbered badges, FAQ rows and carousel counters show it.
 export const padIndex = (value: number): string => String(value).padStart(2, '0');

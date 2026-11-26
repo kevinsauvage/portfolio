@@ -1,17 +1,12 @@
 /**
- * Toast helpers that load `sonner` on demand.
- *
- * Components rendered on first paint (the contact form, the copy button) must
- * not import `sonner` directly: that pulls the library into every page's initial
- * bundle. Nothing a toast reports can happen before the visitor acts, so loading
- * the library at that moment costs nothing in practice.
+ * Toasts load `sonner` on demand: importing it from a component on first paint
+ * (the contact form, the copy button) would ship it on every page load, and
+ * nothing a toast reports can happen before the visitor acts.
  */
 
-/**
- * Mounts the toaster. Dispatched before sonner is imported so the toaster is in
- * place, and because sonner replays toasts that predate its subscription it is
- * safe even if the mount lands a tick later.
- */
+// Dispatched before the import so the toaster is mounted first; sonner replays
+// toasts that predate its subscription, so a late mount is safe.
+
 export const TOAST_REQUESTED_EVENT = 'sonner:toast-requested';
 
 const loadToast = () => import('sonner').then(module => module.toast);

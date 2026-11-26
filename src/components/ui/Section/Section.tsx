@@ -6,7 +6,6 @@ type SectionProperties = {
   children: React.ReactNode;
   className?: string;
   spacing?: 'sm' | 'md' | 'lg' | 'xl';
-  /** Set to false to opt out of the scroll-reveal entrance. */
   reveal?: boolean;
 } & React.HTMLAttributes<HTMLElement>;
 

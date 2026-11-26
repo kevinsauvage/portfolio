@@ -1,18 +1,13 @@
 import { consentSignals, DENIED_CONSENT } from '@/lib/consent';
 
-/**
- * Consent Mode v2 starting state: every optional category denied until the
- * banner says otherwise. `wait_for_update` gives a stored grant a moment to
- * land, so a returning visitor's first pageview is not reported as denied.
- */
+// `wait_for_update` gives a stored grant a moment to land, so a returning
+// visitor's first pageview is not reported as denied.
+
 const DEFAULT_CONSENT = { ...consentSignals(DENIED_CONSENT), wait_for_update: 500 };
 
-/**
- * Establishes the dataLayer and the default consent state, in `<head>` and
- * before anything else can fire a tag. Inline on purpose: an external file
- * would be a second round-trip ahead of every tag, and the CSP allows inline
- * scripts (see `script-src` in `csp.config.mjs`).
- */
+// Inline on purpose: an external file is a second round-trip ahead of every tag,
+// and the CSP allows inline scripts (see `script-src` in `csp.config.mjs`).
+
 const ConsentModeDefaults = () => {
   const snippet = [
     'window.dataLayer=window.dataLayer||[];',

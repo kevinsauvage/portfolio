@@ -1,10 +1,8 @@
 /**
- * Minimal reCAPTCHA v3 client.
- *
- * Deliberately free of `react-google-recaptcha-v3`: importing that library from
- * the form keeps it in every page's initial JS bundle, because the form renders
- * immediately while only its provider is deferred. The provider still injects
- * Google's script — this module only asks it for a token.
+ * Minimal reCAPTCHA v3 client. Free of `react-google-recaptcha-v3` on purpose:
+ * the form renders immediately, so importing it there would ship the library on
+ * every page load. The provider injects Google's script; this only asks for a
+ * token.
  */
 
 /** The subset of `window.grecaptcha` this site uses. */
