@@ -39,7 +39,7 @@ const TestimonialContent = ({
     <div className='space-y-4'>
       <blockquote
         className={clsx(
-          'text-lg font-medium leading-relaxed text-zinc-100 md:text-xl lg:text-2xl lg:leading-snug',
+          'text-base leading-relaxed text-zinc-100 md:text-lg',
           // The clamp only previews the excerpt: once expanded it would keep
           // cutting the full text off at six lines (and at 200% text size).
           !expanded && 'line-clamp-6'
