@@ -82,7 +82,7 @@ export const jobs: Job[] = [
     period: 'Jun 2021 – May 2022',
     highlights: [
       'Built full-stack features in React, Next.js, Node.js and Express.js, including third-party API integrations.',
-      'Designed state management with Redux and Context API for complex UIs.',
+      'Managed application state with Redux and the Context API.',
       'Moved a legacy JavaScript codebase to ES6+, which cut bugs and made it easier to maintain.',
     ],
     skills: ['React', 'Next.js', 'Redux', 'Node.js', 'Express.js', 'MongoDB', 'JavaScript', 'Sass'],

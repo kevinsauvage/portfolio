@@ -12,36 +12,23 @@ export type ProjectFact = {
 
 export type ProjectCaseStudy = {
   tagline: string;
-  /** Short narrative paragraphs shown in the overview. */
   overview: string[];
-  /** Verifiable numbers about the build. */
   facts: ProjectFact[];
-  /** What the product does, feature by feature. */
   features: ProjectFeature[];
-  /** Engineering decisions and why they were made. */
   technical: ProjectFeature[];
-  /** Ownership: what was designed, built and shipped. */
   responsibilities: string[];
-  /** Quality, testing and delivery practices. */
   quality: string[];
-  /** Optional per-project closing call to action; falls back to the shared copy. */
   cta?: string;
-  /** Product screenshots captured from the live demo. */
   gallery: { src: string; alt: string }[];
 };
 
 export type Project = {
   slug: string;
   description: string;
-  /** Public repository URL. Omit for private projects; the source button is then hidden. */
   githubUrl?: string;
-  /** Your role on the project (e.g. "Lead frontend"). Optional. */
   role?: string;
-  /** Delivery window (e.g. "2024 — 2025"). Optional. */
   timeline?: string;
-  /** Measurable outcomes, rendered as a bullet list. Optional. */
   highlights?: string[];
-  /** Deep-dive content rendered on `/projects/[slug]`. */
   caseStudy: ProjectCaseStudy;
   images: {
     thumbnail: {
@@ -59,20 +46,20 @@ const myEcommerceProject: Project = {
   role: 'Design & development (solo)',
   timeline: '2026',
   description:
-    'ORUVA is a live European jewelry label selling everyday rings, necklaces, earrings and bracelets to shoppers in Spain and France. I designed and built the whole storefront on Next.js 16 and Shopify: a three-language catalog, persistent cart, customer accounts, wishlist and predictive search, with content managed in Shopify rather than in code.',
+    'ORUVA is a demo store for an imagined European jewelry label that sells everyday rings, necklaces, earrings and bracelets in Spain and France. It runs on a Shopify test store, so nothing is sold. I designed and built the whole storefront on Next.js 16 and Shopify: a three-language catalog, persistent cart, customer accounts, wishlist and predictive search, with content managed in Shopify rather than in code.',
   highlights: [
-    'Live demo in English, Spanish and French',
+    'Demo store in English, Spanish and French, running on a Shopify test store',
     'Brand copy, menus, policies and page content editable in Shopify, no redeploy needed',
     'Storefront + Admin APIs typed end-to-end with GraphQL Code Generator',
     'Automated accessibility (axe, WCAG 2.1 AA) and add-to-cart smoke tests in Playwright',
   ],
   caseStudy: {
     tagline:
-      'A live jewelry label for the Spanish and French market: a headless Shopify storefront built solo, from brand to deployment.',
+      'A demo jewelry store for the Spanish and French market: a headless Shopify storefront built solo, from brand to deployment.',
     overview: [
-      'ORUVA started as a template storefront and became a real store: a warm, modern European jewelry label selling gold-toned and silver pieces meant to be worn every day, not saved for later. The storefront is built on Next.js 16 (App Router, Cache Components) and the Shopify Storefront API, with checkout handled by Shopify.',
-      'I owned it end to end: brand positioning, storefront design, the Shopify data model, the code, caching, deployment and monitoring. The store runs in English, Spanish and French, prices include VAT, and delivery is tracked to Spain and France.',
-      'The source code is private now that it is a commercial project, so this page walks through the decisions instead. I am happy to go through the code on a call.',
+      'ORUVA started as a template storefront and became a complete demo store for an imagined jewelry label with gold-toned and silver pieces meant to be worn every day. It is not a real shop: the catalog sits in a Shopify test store and no order is fulfilled. The storefront is built on Next.js 16 (App Router, Cache Components) and the Shopify Storefront API, with checkout handled by Shopify.',
+      'I owned it end to end: brand positioning, storefront design, the Shopify data model, the code, caching, deployment and monitoring. The store runs in English, Spanish and French, prices include VAT, and delivery is set up for Spain and France.',
+      'The source code is private, so this page walks through the decisions instead. I am happy to go through the code on a call.',
     ],
     facts: [
       { label: 'Languages', value: '3' },
@@ -148,7 +135,7 @@ const myEcommerceProject: Project = {
           'GraphQL Code Generator turns the Storefront and Admin schemas into a typed SDK, and CI fails if the generated output drifts from the committed files.',
       },
       {
-        title: 'OAuth done properly',
+        title: 'OAuth with PKCE',
         description:
           'Customer sign-in uses the authorization-code flow with PKCE (S256) and a state check. A proxy renews sessions and handles auth redirects.',
       },
@@ -158,7 +145,7 @@ const myEcommerceProject: Project = {
           'Cheap toggles like the wishlist use `useOptimistic`. The cart uses request-id sequencing, so the latest server answer always wins over a slower earlier one.',
       },
       {
-        title: 'Hardened delivery',
+        title: 'Security headers and rate limiting',
         description:
           'Content-Security-Policy, HSTS and cross-origin headers, Zod-validated Server Actions, Upstash Redis rate limiting that holds across serverless instances, and store HTML sanitized before rendering.',
       },
@@ -219,7 +206,6 @@ const myEcommerceProject: Project = {
   ],
   title: 'ORUVA — Jewelry E-Commerce',
   websiteLink: 'https://develop.oruva.store/',
-  // The repository is private, so there is no public source link.
 };
 
 const complyLoopProject: Project = {
@@ -307,7 +293,7 @@ const complyLoopProject: Project = {
           'Mutations go through write helpers that take a per-project lock and guard against stale writes. Server actions never touch the database directly, and ESLint enforces it.',
       },
       {
-        title: 'Evidence that cannot be edited',
+        title: 'Append-only evidence',
         description:
           'The evidence log is append-only: a record can be superseded, never changed. GitHub tokens are encrypted at rest with AES-256-GCM.',
       },
@@ -379,7 +365,6 @@ export const projects: Project[] = [myEcommerceProject, complyLoopProject];
 export const getProjectBySlug = (slug: string): Project | undefined =>
   projects.find(candidate => candidate.slug === slug);
 
-/** Absolute canonical URL of a project's case-study page. */
 export const getProjectUrl = (slug: string): string => `${SITE_URL}/projects/${slug}`;
 
 export default projects;

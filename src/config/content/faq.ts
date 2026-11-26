@@ -15,7 +15,7 @@ export const faqs: Faq[] = [
     id: 'freelance',
     question: 'Do you take on freelance projects?',
     answer:
-      "My day-to-day focus is my full-time role at Keolis, so I only consider small, well-scoped collaborations — audits, code reviews, or mentoring. Tell me what you have in mind and I'll give you a straight answer.",
+      "My day-to-day focus is my full-time role at Keolis, so I only consider small, well-scoped collaborations: audits, code reviews or mentoring. Tell me what you have in mind and I'll tell you whether it fits.",
   },
   {
     id: 'stack',
@@ -25,15 +25,15 @@ export const faqs: Faq[] = [
   },
   {
     id: 'closed-source',
-    question: 'Most of your work is closed-source — can you still talk about it?',
+    question: 'Most of your work is closed source. Can you still talk about it?',
     answer:
-      'Yes. Decathlon and Keolis work is proprietary, but I can walk through NDA-friendly summaries: architecture decisions, metrics like the −1.5s LCP improvement, and lessons learned. Just ask.',
+      'Yes. The Decathlon and Keolis code is proprietary, but I can talk about the architecture decisions, the results (like the 1.5s drop in average load time) and what I learned. Just ask.',
   },
   {
     id: 'location-languages',
     question: 'Where are you based, and which languages do you work in?',
     answer:
-      'Barcelona, Spain (CET, UTC+1), working remotely. I work in French (native), English (C1, EF SET), and Spanish (fluent) — comfortable in multicultural, distributed teams.',
+      'Barcelona, Spain (CET, UTC+1), working remotely. I work in French (native), English (C1, EF SET), and Spanish (fluent), and I am used to multicultural, distributed teams.',
   },
 ];
 
