@@ -2,7 +2,6 @@ export * from './certifications';
 export * from './cookies';
 export * from './jobs';
 export * from './layout';
-export * from './passions';
 export * from './privacy';
 export * from './projects';
 export * from './sections';

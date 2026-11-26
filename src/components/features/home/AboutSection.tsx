@@ -1,11 +1,9 @@
 import Reveal from '@/components/shared/Reveal';
 import { NEW_TAB_LABEL } from '@/components/ui/NewTabHint';
 import Section from '@/components/ui/Section';
-import { Body, H2, H3, Overline } from '@/components/ui/Typography';
-import { passions, sections } from '@/config/content';
+import { Body, H2, Overline } from '@/components/ui/Typography';
+import { sections } from '@/config/content';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
-
-import PassionCard from './PassionCard';
 
 import { ExternalLink } from 'lucide-react';
 
@@ -74,19 +72,6 @@ const AboutSection: React.FC = () => {
               ))}
             </ul>
           </Reveal>
-        </div>
-
-        <div className='space-y-8'>
-          <Reveal>
-            <H3>{sections.about.philosophyTitle}</H3>
-          </Reveal>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-            {passions.map((passion, index) => (
-              <Reveal key={passion.slug} delay={index * 60} className='h-full'>
-                <PassionCard {...passion} />
-              </Reveal>
-            ))}
-          </div>
         </div>
       </div>
     </Section>

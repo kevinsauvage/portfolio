@@ -26,7 +26,6 @@ export const sections = {
     overline: 'About me',
     title: `Hi, I'm ${PERSON_NAME}`,
     currently: 'Currently at Keolis Group (remote)',
-    philosophyTitle: 'What I care about',
     paragraphs: [
       "I'm a frontend developer in Barcelona, working mostly with React, Next.js, Svelte and TypeScript.",
       'I got into this during the 2020 lockdown. I was bored, so I spent the time learning to code, then did the Le Wagon bootcamp and got my first developer job in 2021. Before that I spent seven years in very different jobs: customer service at Avis, managing a small business, and the front desk at Soho House.',
